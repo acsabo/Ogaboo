@@ -1,3 +1,13 @@
+/*
+ * Ogaboo (Open Game Bootstrap) 1.0
+ * https://sourceforge.net/projects/ogaboo/
+ *
+ * Copyright (c) 2014 Adriano de Castro Sabo
+ * acsabo@hotmail.com
+ *
+ * Licensed under http://opensource.org/licenses/MIT
+ */
+
 #ifndef GBASECLASS_H
 #define GBASECLASS_H
 

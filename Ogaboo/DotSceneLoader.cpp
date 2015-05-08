@@ -3,6 +3,8 @@
 *
 *  This file provides some methods for the parsing of a .scene file, with
 *  support for userData.
+*
+*  http://code.google.com/p/project-pr/source/browse/#svn%2Ftrunk%2Fportal_adaptation%2Fsrc%2Fmodel%2Fdotscene
 *------------------------------------------------------------------------------*/
 #include "DotSceneLoader.h"
 //-->
