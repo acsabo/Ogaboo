@@ -1,2 +1,5 @@
 /Debug
 /Release
+/Android_Release
+/obj
+/Win32_Release
