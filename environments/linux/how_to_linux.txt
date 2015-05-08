@@ -1,0 +1,150 @@
+before starting, make sure g++ and cmake is installed in your system.
+
+#boost (boost_1_53_0)
+cd boost_1_53_0/
+./bootstrap.sh 
+./b2
+sudo b2 install (that should copy all files to /usr/local (lib/include>
+
+#ogredeps
+cmake . -G "Unix Makefiles"
+sudo make && make install
+<copy the output dir named ogredeps into the ogre_src root directory, but renamed as "Dependencies">
+
+" Talvez tenha que instalar alguns pacotes, ver (BuildingOgre.txt)
+
+sudo apt-get install libfreetype6-dev libboost-date-time-dev \
+  libboost-thread-dev nvidia-cg-toolkit libfreeimage-dev \   
+  zlib1g-dev libzzip-dev libois-dev libcppunit-dev doxygen \
+  libxt-dev libxaw7-dev libxxf86vm-dev libxrandr-dev libglu-dev
+"
+
+#ogre
+sudo apt-get install libxt-dev libxaw7-dev libxrandr-dev
+
+cmake . -G "Unix Makefiles"
+sudo make && make install
+  
+#CEGUI (0.8.4)
+para contornar problemas encontrados aqui: http://www.ogre3d.org/forums/viewtopic.php?f=2&t=78729
+cmake -G "Unix Makefiles" -DCEGUI_SAMPLES_ENABLED:BOOL=OFF -DCEGUI_BUILD_STATIC_CONFIGURATION:BOOL=OFF -DCEGUI_BUILD_XMLPARSER_TINYXML:BOOL=ON -DCEGUI_HAS_FREETYPE:BOOL=ON
+
+sudo make && make install
+
+#bullet (bullet-2.82-r2704)
+sudo apt-get install autogen
+sudo apt-get install cmake
+./autogen.sh
+cmake . -G "Unix Makefiles" -DINSTALL_EXTRA_LIBS:BOOL=ON
+sudo make && make install
+
+#ogrebullet
+Download OgreBullet
+https://bitbucket.org/alexeyknyshev/ogrebullet/src
+Ajustar alguns arquivos:
+-> #include "Overlay/OgreFontManager.h"
+
+cmake . -G "Unix Makefiles" 
+sudo make && make install
+
+#libtheoraplayer
+
+sudo apt-get install subversion
+svn checkout (svn checkout http://libtheoraplayer.googlecode.com/svn/trunk/ libtheoraplayer)
+conforme instruções em https://code.google.com/p/libtheoraplayer/source/checkout
+sudo apt-get install freeglut3-dev (talvez)
+sudo apt-get install libxmu-dev libxi-dev (se precisar)
+cmake -G "CodeBlocks - Unix Makefiles"
+(editar o CMakeCache.txt e adicionar o flag -fPIC em todos os lugares possíveis)
+make 
+(deve gerar os .a nesta pasta, copiar para lib e include)
+
+ATENÇÃO!!! <<<<<<<<<<<<< PAREI AQUI >>>>>>>>>>>>>>>>
+GERE O BUILD DO VORBISFILE TAMBÉM. Será necessário para linkar com o fSound
+/home/adriano/Downloads/libtheoraplayer/vorbis/win32/VS2012-WinRT/libvorbisfile/libvorbisfile_dynamic.cbp
+
+------
+#OgreOggSound-v1.26 (depende de libogg gerada por libtheoraplayer)
+ver http://www.ogre3d.org/forums/viewtopic.php?f=1&t=81607
+tem que gerar o .so em lugar do .a (para isso importar o workspace do VS no code::blocks e compilar)
+copiar em /usr/local/lib/OGRE/libOgreOggSoundLib.so.1.9.0 (JUNTO COM OGRE PLUGINS)
+
+sudo cp libOgreOggSoundLib.so /usr/local/lib/OGRE 
+sudo ln -s libOgreOggSoundLib.so libOgreOggSoundLib.so.1.9.0
+
+prerequisitos:
+the open source fork of openal lives at http://kcat.strangesoft.net/openal.html
+get current source :
+sudo apt-get install git
+git clone git://repo.or.cz/openal-soft.git openal-soft
+cd openal-soft 
+cd build
+cmake ..
+make
+sudo make install
+----
+BJS: VER SE O SISTEMA POSSUI O '/dev/dsp'
+ver: http://askubuntu.com/questions/318396/oss-compat-package-does-not-create-dev-dsp
+
+sudo apt-get install osspd
+----
+
+svn checkout svn://svn.code.sf.net/p/ogrevideo/code/trunk ogrevideo-code
+cd ogrevideo-code
+./autogen.sh (se precisar, instalar o pacote : sudo apt-get install dh-autoreconf )
+./configure CPPFLAGS="-I/usr/local/include/theoraplayer -I/usr/local/include/OGRE"
+make
+sudo make install
+
+em caso de erros:
+1) editar OgreVideoManager.h e substituir a linha class TexturePtr; por:
+	class Texture;
+	template<typename T> class SharedPtr;
+	typedef SharedPtr<Texture> TexturePtr;
+
+2) em caso de erro em OgreVideoDLLmain.cpp, substituir as diretrizes conforme:
+http://www.ogre3d.org/addonforums/viewtopic.php?f=18&t=13158
+
+#ifdef OGRE_PLATFORM_APPLE
+  #define OGREVIDEO_EXPORT extern "C"
+#elif OGRE_PLATFORM_LINUX
+  #define OGREVIDEO_EXPORT extern "C"
+ #else
+  #define OGREVIDEO_EXPORT extern "C" __declspec(dllexport)
+ #endif
+
+3) comentar as linhas em OgreVideoManager.cpp:
+mPlugInName = "TheoraVideoPlugin";
+...
+mDictionaryName = mPlugInName;
+
+#tinyxml
+open tinyxml_lib to build libtinyxml.a (usar -fPIC como opções do compilador)
+copy header and lib to /usr/local/include e /usr/local/lib respectivamente
+
+após tudo isso, rodar o comando
+sudo ldconfig -c ldconfig
+---------------------------------
+*****************************************
+*** --- Initialising OgreOggSound --- ***
+*** ---     OgreOggSound v1.26    --- ***
+*****************************************
+*** --- OpenAL version 1.1
+*** --- AVAILABLE DEVICES --- ***
+*** --- OpenAL Soft
+*** --- Choosing: OpenAL Soft (Default device)
+*** --- OpenAL Device successfully created
+*** --- OpenAL Context successfully created
+*** --- SUPPORTED FORMATS
+*** --- AL_FORMAT_MONO16 -- Monophonic Sound
+*** --- AL_FORMAT_STEREO16 -- Stereo Sound
+*** --- AL_FORMAT_QUAD16 -- 4 Channel Sound
+*** --- AL_FORMAT_51CHN16 -- 5.1 Surround Sound
+*** --- AL_FORMAT_61CHN16 -- 6.1 Surround Sound
+*** --- AL_FORMAT_71CHN16 -- 7.1 Surround Sound
+*** --- Created 100 sources for simultaneous sounds
+*** --- Using BOOST threads for streaming
+*****************************************
+*** ---  OgreOggSound Initialised --- ***
+*****************************************
+
