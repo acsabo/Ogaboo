@@ -1,0 +1,5 @@
+# TODO LIST
+1) - Check oggOgreSound
+2) - Implement save/load in xml file
+3) - Research on Effects
+4) - 

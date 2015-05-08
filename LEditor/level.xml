@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<scene>
+    <object name="Cube.mesh">
+        <position x="60" y="0" z="10" />
+        <orientation w="0" x="0" y="0" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Stair.mesh">
+        <position x="60" y="0" z="-10" />
+        <orientation w="0" x="0" y="0" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Ramp.mesh">
+        <position x="-350" y="0" z="-10" />
+        <orientation w="1" x="0" y="0" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Ramp.mesh">
+        <position x="30" y="0" z="0" />
+        <orientation w="0" x="0" y="1" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Ramp.mesh">
+        <position x="20" y="0" z="-30" />
+        <orientation w="0" x="0" y="1" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Cube.mesh">
+        <position x="50" y="0" z="10" />
+        <orientation w="1" x="0" y="0" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Stair.mesh">
+        <position x="-20" y="0" z="0" />
+        <orientation w="1" x="0" y="0" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Ramp.mesh">
+        <position x="30" y="0" z="30" />
+        <orientation w="1" x="0" y="0" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Stair.mesh">
+        <position x="10" y="0" z="10" />
+        <orientation w="0" x="0" y="0" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Cube.mesh">
+        <position x="10" y="0" z="40" />
+        <orientation w="1" x="0" y="0" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+    <object name="Ramp.mesh">
+        <position x="-40" y="0" z="-40" />
+        <orientation w="0" x="0" y="0" z="0" />
+        <scale x="5" y="5" z="5" />
+    </object>
+</scene>
