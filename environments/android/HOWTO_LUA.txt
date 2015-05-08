@@ -1,0 +1,30 @@
+EM CASO DE ERRO DE COMPILAÇÃO:
+
+EDITAR O ARQUIVO llex.c
+E SUBSTITUIR:
+
+#if !defined(getlocaledecpoint)
+#define getlocaledecpoint() (localeconv()->decimal_point[0]) //Missing struct member
+#endif
+
+POR
+
+#if !defined(getlocaledecpoint)
+#define getlocaledecpoint() ('.') //Code-monkey style
+#endif
+
+
+-- lua-5.2.2
+ADICIONAR 
+
+
+#if !defined(getlocaledecpoint)
+#define getlocaledecpoint() ('.') //Code-monkey style
+#endif
+
+
+EM LUA.H
+
+
+ainda,
+tive que adicionar alguns headers em diversos arquivos deste projeto.

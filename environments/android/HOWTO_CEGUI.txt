@@ -1,0 +1,47 @@
+ver link
+https://bitbucket.org/david_reepmeyer/cegui_android
+
+/*** Atenção!!!
+VER LINK
+https://bitbucket.org/david_reepmeyer/cegui_android_deps
+
+extrair e copiar para cegui_android/AndroidDependencies
+criar uma pasta cegui_android/build
+cd build
+***/
+Alternativamente, pode-se copiar as AndroidDependencies do projeto OGRE (ogredeps)
+
+export ANDROID_SDK=/C/android/sdk
+export ANDROID_NDK=/C/android/android-ndk-r10c
+export PATH=$PATH:$ANDROID_NDK:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools
+
+executar 
+
+cmake -G"MSYS Makefiles" -DCMAKE_TOOLCHAIN_FILE=/C/MinGW/msys/1.0/home/a.sabo/cegui_android/cmake/toolchain/android.toolchain.cmake -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-4.8 -DANDROID_NATIVE_API_LEVEL=19 -DANDROID_ABI=armeabi -DCEGUI_BUILD_RENDERER_OGRE=ON -DCEGUI_BUILD_RENDERER_OPENGLES2=OFF -DCEGUI_DEPENDENCIES_DIR=/C/MinGW/msys/1.0/home/a.sabo/cegui_android/AndroidDependencies -DBoost_SYSTEM_LIBRARY_RELEASE=../AndroidDependencies/lib/libboost_system-gcc-mt-s-1_53.a -DBoost_THREAD_LIBRARY_RELEASE=../AndroidDependencies/lib/libboost_thread-gcc-mt-s-1_53.a ..
+
+
+!!!!!!!!!!!
+verificar o conteúdo do arquivo CMakeLists.txt
+
+#if (NOT WIN32)
+if (NOT WIN32 AND NOT ANDROID)
+    cegui_add_dependency(${CEGUI_TARGET_NAME} ICONV)
+
+make && make install
+
+consultar:
+
+C:\android\android-ndk-r10c\toolchains\arm-linux-androideabi-4.8\prebuilt\windows\user\share
+
+
+------ ATENÇÃO PARA LINKAR o projeto será necessárioa diocionar os seguintes parâmentros em Android.ml (Obaboo ou outro game)
+ref. http://sourceforge.net/p/crayzedsgui/mailman/crayzedsgui-cvsmk2/
+
+LOCAL_WHOLE_STATIC_LIBRARIES += android_support
+LOCAL_LDLIBS := -llog -landroid -lEGL -lGLESv2 		<<<
+						
+include $(BUILD_SHARED_LIBRARY) 
+
+$(call import-module,android/native_app_glue) 
+$(call import-module,android/cpufeatures)
+$(call import-module,android/support)			<<<

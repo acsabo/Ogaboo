@@ -1,0 +1,55 @@
+Compilar primeiro o Boost-for-Android;
+renomear todos os arquivos adicionando o prefixo 's' (Ex: boost_thread-gcc-mt-d-1_53 -> boost_thread-gcc-mt-sd-1_53) e copiálos para ../AndroidDependencies/lib (na raiz mesmo, mesmo nível das pastas armeabi)
+
+cmake -G"MSYS Makefiles" -DCMAKE_CXX_FLAGS=-std=c++11 -DCMAKE_TOOLCHAIN_FILE=/C/MinGW/msys/1.0/home/Adriano/android/ogre-1.9/cmake/toolchain/android.toolchain.cmake -DOGRE_DEPENDENCIES_DIR=/C/MinGW/msys/1.0/home/Adriano/android/ogre-1.9/AndroidDependencies -DANDROID_ABI=armeabi -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-4.8 -DANDROID_NATIVE_API_LEVEL=19 -DBoost_COMPILER=-gcc -DBoost_USE_STATIC_LIBS=ON -DBoost_USE_MULTITHREADED=ON -DBoost_USE_STATIC_RUNTIME=TRUE -DBoost_DEBUG=1 -DBoost_DEBUG=TRUE -DOGRE_BUILD_SAMPLES=OFF ..
+
+make && make install
+
+os pacotes serão instalados em:
+C:\android\android-ndk-r10c\toolchains\arm-linux-androideabi-4.8\prebuilt\windows\user\include\OGRE
+
+
+--- download OGREDEPS (COM CORREÇÕES PARA NDK-10C)
+https://bitbucket.org/cabalistic/ogredeps/src
+
+baixar e copiar (via gerenciador de versão)
+C:\Users\a.sabo\Documents\ogredeps
+
+a.sabo@corvina ~/ogredeps/build
+cmake -G"MSYS Makefiles" -DCMAKE_CXX_FLAGS=-std=gnu++11 -DCMAKE_TOOLCHAIN_FILE=/C/MinGW/msys/1.0/home/Adriano/android/ogredeps/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-4.8 -DANDROID_NATIVE_API_LEVEL=19 ..
+
+
+talvez seja necessário aplicar o patch
+https://cells-source.cs.columbia.edu/plugins/gitiles/platform/ndk/+/48ef1859ef0bb25547e5aceeedb9b175c6193bc5/build/platforms/android-1.5/common/include/linux/byteorder/swab.h
+https://github.com/android/platform_development/blob/master/ndk/platforms/android-3/include/linux/byteorder/swab.h
+http://blog.csdn.net/ilysony/article/details/36924895
+dicas:
+http://recursify.com/blog/2013/05/25/building-freeimage-for-android
+
+Since the NDK doesn't include search.h, you'll need to remove the following define from Source/LibTIFF4/tif_config.h:
+
+/* Define to 1 if you have the <search.h> header file. */
+#define HAVE_SEARCH_H 1
+Note that although the answer to this StackOverflow question states that you need to define lfind, that's not actually the case. In 2009, LibTIFF switched from using lfind to its own local equivalent. That renders the above configuration option unneccessary, since search.h is never used anywhere else.
+You'll also need to add a definition for the swab function in Source\LibRawLite\internal\dcraw_common.cpp, as the NDK doesn't provide one. You can find an example implementation here.
+
+editar o dcraw_common.cpp :
+
+#ifdef ANDROID
+
+#define ___swab16(x)  ({   __u16 __x = (x);   ((__u16)(   (((__u16)(__x) & (__u16)0x00ffU) << 8) |   (((__u16)(__x) & (__u16)0xff00U) >> 8) ));  })
+
+static void swab(const void *from, void *to, ssize_t n)
+{
+    ssize_t i;
+
+    if (n < 0)
+    {
+        return;
+    }
+    for (i = 0; i < (n / 2) * 2; i += 2)
+    {
+        *((uint16_t*)to + i) = ___swab16(*((uint16_t*)from + i));
+    }
+}
+#endif

@@ -1,0 +1,39 @@
+EDITAR Boost-for-Android-master\configs\user-config-boost-1_53_0.jam, setando as seguintes variáveis:
+
+local AndroidNDKRoot = /C/MinGW/msys/1.0/android-ndk-r10c ; 
+#[ os.environ AndroidNDKRoot ] ;
+
+local AndroidBinariesPath = /C/MinGW/msys/1.0/android-ndk-r10c/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/bin ;
+#[ os.environ AndroidBinariesPath ] ;
+
+ainda, acrescentar .exe no final dos comandos
+arm-linux-androideabi-g++.exe
+
+e
+
+
+arm-linux-androideabi-ar.exe
+
+entrar em C:\MinGW\msys\1.0\home\a.sabo\Boost-for-Android-master\boost_1_53_0\tools\build\v2\engine
+e rodar build.sh
+após construí-lo copiar os executáveis gerados para C:\MinGW\msys\1.0\bin (b2.exe e bjam.exe)
+
+editar o build-android.sh e retirar o prefixo "./" da linha (~366) bjam. Adionar os parametros: bjam -q debug release
+
+- para fazer funcionar com a versão mais atual do ndk (r10c), precisei forçar o script para:
+
+TOOLCHAIN=${TOOLCHAIN:-arm-linux-androideabi-4.8}
+
+CXXPATH=$AndroidNDKRoot/toolchains/${TOOLCHAIN}/prebuilt/${PlatformOS}/bin/arm-linux-androideabi-g++.exe
+
+TOOLSET=gcc-androidR8e
+
+apagando o bloco (case "$NDK_RN" in) e colocar tambpem o ".exe" nos comandos como em:
+CXXPATH="${ANDROID_TOOLCHAIN}/arm-linux-androideabi-g++.exe"
+
+execuar o comando ./build-android.sh /<ndk_root>
+
+Houve alguns erros durante o build (ver build.log)
+Que, segundo este link pode ser normal. http://vijay.axham.com/blog/478/building-boost-binaries-on-mingw
+
+ainda, não esqueça de adicionar a tag cxxflags="-std=c++11" na compilação (boost_changes.7z)

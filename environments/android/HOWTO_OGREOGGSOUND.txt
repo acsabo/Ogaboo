@@ -1,0 +1,62 @@
+jni/Android.mk
+--------- CONTEÚDO:
+
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE    := OgreOggSound
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../include \
+					/C/android/android-ndk-r10c/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include \
+					/C/android/android-ndk-r10c/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/OGRE 
+
+LOCAL_SRC_FILES := \
+        $(subst $(LOCAL_PATH)/,, \
+        $(wildcard $(LOCAL_PATH)/../src/*.cpp))
+
+include $(BUILD_STATIC_LIBRARY)
+
+---------- FIM
+
+jni/Application.mk
+---------- CONTEÚDO:
+
+APP_ABI := armeabi 
+
+APP_PLATFORM := android-9
+
+APP_STL:=stlport_static
+
+
+# use this to select gcc instead of clang
+
+NDK_TOOLCHAIN_VERSION := 4.8
+
+
+# then enable c++11 extentions in source code
+
+APP_CPPFLAGS += -fexceptions
+
+APP_CPPFLAGS += -std=gnu++11
+
+
+=========== erros de compilação comuns:
+http://www.programdevelop.com/1769504/
+
+http://www.ogre3d.org/forums/viewtopic.php?f=2&t=78399
+tipo: (s/user/include/OGRE/OgreSharedPtr.h:203:35: error: 'enable_if' in namespace 'std' does not name a type)
+
+OBS: PARA COMPILAR, TIVE QUE ADICIONAR A LINHA #include <AL/alext.h> E TROCAR 
+		if (!buffer)
+		{
+			// Load audio file
+			sound->_openImpl(_openStream(file));
+		}
+POR
+
+		if (!buffer)
+		{
+			// Load audio file
+			Ogre::DataStreamPtr streamedFilePtr = _openStream(file);
+			sound->_openImpl(streamedFilePtr);
+		}
+CONFORME DESCRITO EM 
+http://www.ogre3d.org/forums/viewtopic.php?f=1&t=81607

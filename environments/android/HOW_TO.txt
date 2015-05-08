@@ -1,0 +1,1 @@
+7z a -tzip archive.zip *.mk -mx0 -r

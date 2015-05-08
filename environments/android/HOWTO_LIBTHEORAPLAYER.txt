@@ -1,0 +1,29 @@
+Adicionar #include <unistd.h> ao arquivo TheoraUtil.cpp se reportado erro na linha 38 : usleep
+
+antes eu substituí os diretórios ogg, vorbis e theora pelos do projeto android-ffmpeg-master (após compilar todos esses)
+
+conteúdo do arquivovo Android.mk
+----
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE    := theoraplayer
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../include/theoraplayer \
+			$(LOCAL_PATH)/../../ogg/include \
+			$(LOCAL_PATH)/../../vorbis/include \
+			$(LOCAL_PATH)/../../theora/include
+
+LOCAL_SRC_FILES := \
+        $(subst $(LOCAL_PATH)/,, \
+        $(wildcard $(LOCAL_PATH)/../src/*.cpp) \
+        $(wildcard $(LOCAL_PATH)/../src/AVFoundation/*.cpp) \
+        $(wildcard $(LOCAL_PATH)/../src/YUV/C/*.c) \
+        $(wildcard $(LOCAL_PATH)/../src/Theora/*.cpp))
+
+#LOCAL_LDLIBS := -lm -lGLESv2 -llog
+#include $(BUILD_SHARED_LIBRARY)
+
+LOCAL_CPPFLAGS += -fexceptions
+
+include $(BUILD_STATIC_LIBRARY)
+----
+

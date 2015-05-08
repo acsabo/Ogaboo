@@ -1,0 +1,28 @@
+http://cegui.org.uk/forum/viewtopic.php?f=10&t=6555#p30834
+
+editar OgreVideoManager.h
+
+e substituir
+	class TexturePtr;	
+por:	
+	class Texture;
+	template<typename T> class SharedPtr;
+	typedef SharedPtr<Texture> TexturePtr;
+	
+editar OgreVideoDLLmain.cpp
+
+#ifdef OGRE_MAC_FRAMEWORK
+#define OGREVIDEO_EXPORT extern "C"
+#else
+//#define OGREVIDEO_EXPORT extern "C" __declspec(dllexport) (ou tentar passar para o compilador -DOGRE_MAC_FRAMEWORK )
+#define OGREVIDEO_EXPORT extern "C"
+#endif
+
+e também
+
+	OgreVideoManager::OgreVideoManager(int num_worker_threads) : TheoraVideoManager(num_worker_threads)
+	{
+//		mPlugInName = "TheoraVideoPlugin";
+//		mDictionaryName = mPlugInName;
+
+

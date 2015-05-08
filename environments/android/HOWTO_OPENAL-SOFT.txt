@@ -1,0 +1,11 @@
+get the openal-soft first
+follow and change the Android.mk according to this:
+
+http://thelittleengineerthatcould.blogspot.com.br/2014/07/openal-with-android-ndk.html
+
+pode ter que comentar algumas linhas de logs em OpenAL\Alc\opensles.c
+ex: //RELEASE_LOG("get the buffer queue interface is null or errored: %lx", result);
+
+
+
+ 

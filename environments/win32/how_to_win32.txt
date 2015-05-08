@@ -1,0 +1,95 @@
+﻿http://www.mingw.org/wiki/HOWTO_Use_the_GCC_specs_file
+http://www.mingw.org/wiki/getting_started
+
+http://mingw-w64.sourceforge.net/download.php#mingw-builds
+http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=9636 (por hora, temos que contornar corrigindo o código da lib - ver pacote de fix - ou esperar a versão 8.2 do GCC) aplicar o patch_for_bullet-2.82.zip [13.13 KiB] 
+
+Install mingw with c++ development support and MSYS tools
+
+open MSYS console and execute "mount c:<mingw_root> /mingw"
+execute para verificar? ld --verbose | grep SEARCH_DIR | tr -s ' ;' \\012
+-----------
+#boost (boost_1_53_0)
+cd boost_1_49_0/tools/build/v2
+./bootstrap.sh --with-toolset=mingw stage variant=debug,release threading=multi link=static
+	#I also tried with-> stage variant=debug,release threading=multi link=static
+b2 install --prefix=/mingw
+cd cd boost_1_49_0 (src root)
+b2 toolset=gcc
+
+check if it is generated there. if so, move it to the upper directory
+C:\Tools\MinGW\include\boost-1_49\boost -> C:\Tools\MinGW\include\boost
+
+#freeglut (freeglut-2.8.1)
+./configure --prefix=/mingw && make && make install
+
+#bullet (bullet-2.82-r2704)
+cmake . -G "MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw
+make
+make install
+obs: copiar também o Extras para dentro do /mingw/include
+
+#ogredeps
+cmake . -G "MSYS Makefiles"
+make && make install
+<copy the output dir named ogredeps into the ogre_src root directory>
+
+#tinyxml 
+criate static library in eclipse out ot tinyxml_2_6_2 source
+
+#ogre
+cmake . -G "MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw -DOGRE_DEPENDENCIES_DIR=./ogredeps -DCMAKE_BUILD_TYPE:STRING=Release -DOGRE_BUILD_SAMPLES:BOOL=OFF -DOGRE_BUILD_RENDERSYSTEM_D3D11:BOOL=OFF -DOGRE_BUILD_RENDERSYSTEM_D3D9:BOOL=OFF
+make
+make install
+check if it is generated there. if so, move it to the upper directory
+C:\Tools\MinGW\bin\release -> C:\Tools\MinGW\bin
+ 
+ 
+ CEGUI-DEPS
+cmake . -G "MSYS Makefiles" -DCEGUI_BUILD_EFFECTS11:BOOL=OFF 
+ (http://static.cegui.org.uk/docs/current/building_deps.html)
+ open CMakeCache.txt and change -> CEGUI_BUILD_EFFECTS11:BOOL=OFF
+ make
+ 
+ CEGUI
+cmake . -G "MSYS Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=/mingw -DCEGUI_BUILD_RENDERER_OGRE:BOOL=ON -DCEGUI_BUILD_RENDERER_DIRECT3D10:BOOL=OFF -DCEGUI_BUILD_RENDERER_DIRECT3D9:BOOL=OFF
+
+ Installing: the dependency build output is not recommended and is not supported, so please do not do that
+
+------
+download from (http://libtheoraplayer.cateia.com/wiki/index.php?title=Setup)
+http://sourceforge.net/p/libtheoraplayer/code/190/tarball?path=/tags/1.0.0
+
+---
+abra o workspace no Code::Blocks e importe o arquivo libtheoraplayer
+Se der erro de compilação: adicionar #include <string.h> no topo do arquivo
+se der erro de linker, inverta a order entre libvorbis e libogg nas configs. do linker
+copie o .a gerado para /mingw/lib e também os headers para mingw/include/theoraplayer
+
+---
+Download OgreBullet
+https://bitbucket.org/alexeyknyshev/ogrebullet/src
+-> setar os parâmetros para o cmake:
+para encontrar os header files, é preciso que os headers de bullet estejam em /mingw/include (na raiz mesmo)
+cmake . -G "MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw
+
+problemas:
+editar o arquivo OgreBulletCollisionsDebugContact.cpp
+trocar 
+#include "Overlay/OgreFontManager.h"
+por
+#include "Overlay/OgreFontManager.h"
+
+-------
+
+retirar o /mingw/include/CEGUI das configurações do searchdir no codeblocks. Isto resolve o problema do compilador se perder
+será necessário adaptar os fontes para a nova versão do CEGUI
+
+e ainda: eu havia criado um método getDevice no projeto OggSound... ver como fica.
+
+
+cmake . -G "MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw -DBULLET_INCLUDE_COLLISION_DIR=C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/src -DBULLET_INCLUDE_CONVEXDECOMPOSITION_DIR=C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/Extras/ConvexDecomposition -DBULLET_INCLUDE_DYNAMICS_DIR=C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/src -DBULLET_INCLUDE_LINEARMATH_DIR=C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/src -DBULLET_INCLUDE_SOFTBODY_DIR=C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/src
+e não der certo, edite o cmakecache.txt e altere:
+//Path to a file.
+BULLET_INCLUDE_DIR:PATH=c:/Tools/MinGW/include;C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/src;C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/Extras
+
