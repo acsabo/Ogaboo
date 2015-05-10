@@ -14,7 +14,7 @@ the terms of the BSD license: http://www.opensource.org/licenses/bsd-license.php
 //#ifndef OGRE_MAC_FRAMEWORK
 //#include "OgreDataStream.h"
 //#else
-#include <Ogre/OgreDataStream.h>
+#include <OGRE/OgreDataStream.h>
 //#endif
 
 namespace Ogre

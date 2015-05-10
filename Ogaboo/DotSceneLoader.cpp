@@ -8,7 +8,7 @@
 *------------------------------------------------------------------------------*/
 #include "DotSceneLoader.h"
 //-->
-#include "OGRE/ogre.h"
+#include "OGRE/Ogre.h"
 //<--
 using namespace Ogre;
 
