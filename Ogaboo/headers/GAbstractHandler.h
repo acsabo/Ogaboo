@@ -42,9 +42,7 @@
 
 #include "GBaseClass.h"
 
-//using namespace Acsabo;
-
-namespace Acsabo {
+namespace Ogaboo {
 
 /** This class demonstrates basic usage of the RTShader system.
 It sub class the material manager listener class and when a target scheme callback
@@ -178,7 +176,7 @@ protected:
             void kill (void);
             bool isAlive (void);
         protected:
-            Acsabo::GBaseClass* game;
+            Ogaboo::GBaseClass* game;
             Ogre::Camera* mCamera;
             OgreBites::SdkCameraMan* mCameraMan;
             Ogre::SceneManager* mSceneMgr;

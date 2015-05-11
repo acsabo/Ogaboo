@@ -66,10 +66,9 @@ using namespace std;
 //Bullet API
 //#include <btBulletDynamicsCommon.h>
 
-using namespace Acsabo;
+using namespace Ogaboo;
 
-
-namespace Acsabo {
+namespace Ogaboo {
 
     class GBaseClass : public Ogre::FrameListener,
                        public OIS::KeyListener,
@@ -101,7 +100,7 @@ namespace Acsabo {
             Ogre::Root *mRoot;
             Ogre::RenderWindow* mWindow;
 
-            Acsabo::VideoClipManager* videoClipManager;
+            Ogaboo::VideoClipManager* videoClipManager;
 
             OgreOggSound::OgreOggSoundManager* mSoundManager;
 

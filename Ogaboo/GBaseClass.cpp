@@ -17,7 +17,7 @@
 
 using namespace std;
 
-using namespace Acsabo;
+using namespace Ogaboo;
 
 short currentHandler = 0;
 
@@ -52,7 +52,7 @@ GBaseClass::~GBaseClass()
     delete mSoundManager;
 }
 
-void GBaseClass::addHandler(Acsabo::GAbstractHandler *handler)
+void GBaseClass::addHandler(Ogaboo::GAbstractHandler *handler)
 {
     this->GAHandlers.push_back(handler);
 }

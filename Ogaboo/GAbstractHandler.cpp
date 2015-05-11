@@ -14,11 +14,11 @@
 #include <iostream>
 using namespace std;
 
-using namespace Acsabo;
+using namespace Ogaboo;
 
 static bool isMouseDragging = false;
 
-GAbstractHandler::GAbstractHandler(Acsabo::GBaseClass *base, bool autoCreateScene)
+GAbstractHandler::GAbstractHandler(Ogaboo::GBaseClass *base, bool autoCreateScene)
 {
     this->alive = true;
     this->setAutoCreateScene(autoCreateScene);

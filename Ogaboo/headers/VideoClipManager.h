@@ -34,7 +34,7 @@
 //copia do OPENGL gl.h <mudar isso>
 #define GL_RGB 0x1907
 
-namespace Acsabo {
+namespace Ogaboo {
 
     class VideoClipManager : public TheoraVideoManager
     {
