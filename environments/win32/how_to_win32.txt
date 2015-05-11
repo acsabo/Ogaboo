@@ -10,11 +10,11 @@ open MSYS console and execute "mount c:<mingw_root> /mingw"
 execute para verificar? ld --verbose | grep SEARCH_DIR | tr -s ' ;' \\012
 -----------
 #boost (boost_1_53_0)
-cd boost_1_49_0/tools/build/v2
+cd boost_1_53_0/tools/build/v2
 ./bootstrap.sh --with-toolset=mingw stage variant=debug,release threading=multi link=static
 	#I also tried with-> stage variant=debug,release threading=multi link=static
 b2 install --prefix=/mingw
-cd cd boost_1_49_0 (src root)
+cd cd boost_1_53_0 (src root)
 b2 toolset=gcc
 
 check if it is generated there. if so, move it to the upper directory
