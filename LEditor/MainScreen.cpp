@@ -620,8 +620,6 @@ void MainScreen::createScene(void)
 
     mGridPlane->attachObject(myManualObject);
 
-	Ogre::LogManager::getSingleton().logMessage("*** ---  acsabo 2 --- ***", Ogre::LML_NORMAL);
-
     //------------physics
     // Start Bullet
     Ogre::AxisAlignedBox box = Ogre::AxisAlignedBox(Ogre::Vector3(-10000.0f, -10000.0f, -10000.0f),	Ogre::Vector3(10000.0f, 10000.0f, 10000.0f));
@@ -645,7 +643,6 @@ void MainScreen::createScene(void)
     OgreOggSound::OgreOggSoundManager* mSoundManager = OgreOggSound::OgreOggSoundManager::getSingletonPtr();
     // Create a streamed sound, no looping, no prebuffering
     mSoundManager->createSound("Sound1", "test.ogg", true, false, false);
-	Ogre::LogManager::getSingleton().logMessage("*** ---  acsabo 3 --- ***", Ogre::LML_NORMAL);
 }
 
 bool MainScreen::draw(const Ogre::FrameEvent& evt)

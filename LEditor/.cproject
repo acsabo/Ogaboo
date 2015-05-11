@@ -4,7 +4,7 @@
 		<cconfiguration id="cdt.managedbuild.config.gnu.mingw.exe.debug.1009238306">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.mingw.exe.debug.1009238306" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<macros>
-					<stringMacro name="ACSABO" type="VALUE_PATH_ANY" value="/GFramework/headers"/>
+					<stringMacro name="OGABOO" type="VALUE_PATH_ANY" value="/GFramework/headers"/>
 				</macros>
 				<externalSettings/>
 				<extensions>
@@ -58,7 +58,7 @@
 		<cconfiguration id="cdt.managedbuild.config.gnu.mingw.exe.release.830487055">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.mingw.exe.release.830487055" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<macros>
-					<stringMacro name="ACSABO" type="VALUE_PATH_ANY" value="/Ogaboo"/>
+					<stringMacro name="OGABOO" type="VALUE_PATH_ANY" value="/Ogaboo"/>
 				</macros>
 				<externalSettings>
 					<externalSetting/>
@@ -108,7 +108,7 @@
 								<option id="gnu.c.compiler.option.dialect.std.1056859185" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.dialect.flags.1838025890" name="Other dialect flags" superClass="gnu.c.compiler.option.dialect.flags" value="-std=gnu++11" valueType="string"/>
 								<option id="gnu.c.compiler.option.include.paths.1855539952" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:${ACSABO}/headers}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:${OGABOO}/headers}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/GFramework/headers}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.1423225952" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -static" valueType="string"/>

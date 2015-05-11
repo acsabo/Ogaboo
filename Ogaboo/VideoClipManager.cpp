@@ -18,7 +18,7 @@
 using namespace std;
 
 using namespace Ogre;
-using namespace Acsabo;
+using namespace Ogaboo;
 
 VideoClipManager::VideoClipManager(OgreOggSound::OgreOggSoundManager* mSoundManager)
 {

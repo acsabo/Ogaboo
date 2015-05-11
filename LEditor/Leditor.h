@@ -5,7 +5,7 @@
 
 #include "MainScreen.h"
 
-using namespace Acsabo;
+using namespace Ogaboo;
 
 class Leditor : public GBaseClass
 {

@@ -4,7 +4,7 @@
 #include <GBaseClass.h>
 #include <GAbstractHandler.h>
 
-using namespace Acsabo;
+using namespace Ogaboo;
 
 class MainScreen : public GAbstractHandler
 {
