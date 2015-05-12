@@ -93,3 +93,4 @@ e não der certo, edite o cmakecache.txt e altere:
 //Path to a file.
 BULLET_INCLUDE_DIR:PATH=c:/Tools/MinGW/include;C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/src;C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/Extras
 
+C:\MinGW\msys\1.0\home\a.sabo\win_32\openal-soft-1.15.1
