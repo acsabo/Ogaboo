@@ -100,3 +100,14 @@ e não der certo, edite o cmakecache.txt e altere:
 BULLET_INCLUDE_DIR:PATH=c:/Tools/MinGW/include;C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/src;C:/Tools/MinGW/msys/1.0/home/a.sabo/bullet-2.82-r2704/Extras
 
 C:\MinGW\msys\1.0\home\a.sabo\win_32\openal-soft-1.15.1
+
+++++
+
+Download lua-5.2.3.tar.gz from www.lua.org
+cd lua-5.2.3\src
+make mingw
+copy headers and lualib.a
+
+download luacppinterface-master.zip from https://github.com/davidsiaw/luacppinterface
+Import LuaCppInterface.sln in Code::Blocks and build the library
+copy headers and lib

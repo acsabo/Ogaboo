@@ -1,8 +1,8 @@
 #ifndef MAIN_H_
 #define MAIN_H_
-
-#include <boost/thread.hpp>
-#include <boost/date_time.hpp>
+#define BOOST_BIND_NO_PLACEHOLDERS
+//#include <boost/thread.hpp>
+//#include <boost/date_time.hpp>
 #include <OGRE/OgreSceneManager.h>
 
 #include "MainScene.h"

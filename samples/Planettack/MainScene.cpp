@@ -79,10 +79,10 @@ void MainScene::setup(void)
 
 
     //Networking
-    GNetworking::instance().setCallback(&callback);
+//    GNetworking::instance().setCallback(&callback);
 
 	//connect
-	GNetworking::instance().start("appz", "acsabo", "password");
+//	GNetworking::instance().start("appz", "acsabo", "password");
 }
 
 bool MainScene::keyPressed( const OIS::KeyEvent &arg )
@@ -95,7 +95,7 @@ bool MainScene::keyPressed( const OIS::KeyEvent &arg )
     if (arg.key == OIS::KC_ESCAPE)
     {
     	//quit
-    	GNetworking::instance().quit();
+//    	GNetworking::instance().quit();
     }
 
     GAbstractHandler::keyPressed(arg);
@@ -150,7 +150,7 @@ bool MainScene::draw(const Ogre::FrameEvent& evt)
 		obj->Update(evt.timeSinceLastFrame);
 
 
-		GNetworking::instance().send(request);
+//		GNetworking::instance().send(request);
 
 	}
 	mCameraMan->frameRenderingQueued(evt);

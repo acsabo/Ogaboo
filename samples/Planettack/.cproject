@@ -62,7 +62,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.release.1975726851." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.release.1371485190" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.1485702306" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>
-							<builder buildPath="${workspace_loc:/Planettack}/Release" id="cdt.managedbuild.tool.gnu.builder.mingw.base.1141324748" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
+							<builder buildPath="${workspace_loc:/Planettack}/Release" id="org.eclipse.cdt.build.core.internal.builder.1630432837" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release.1602821892" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.947200910" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -71,6 +71,7 @@
 								<option id="gnu.cpp.compiler.mingw.exe.release.option.optimization.level.100705951" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.mingw.exe.release.option.debugging.level.1371140146" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1913754400" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ogaboo/headers}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}/include/BULLET&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}/include/BULLET/BulletCollision&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}/include/OGRE&quot;"/>
@@ -80,7 +81,7 @@
 									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}/include/OgreBullet/Collisions&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}/include/OgreBullet/Dynamics&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}/include/OgreBullet&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ogaboo/headers}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}/include/boost&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.1963503260" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.dialect.flags.75442923" name="Other dialect flags" superClass="gnu.cpp.compiler.option.dialect.flags" useByScannerDiscovery="true" value="-std=gnu++11" valueType="string"/>
@@ -88,11 +89,13 @@
 									<listOptionValue builtIn="false" value="__cplusplus=201103L"/>
 									<listOptionValue builtIn="false" value="_WIN32_WINNT=0x0601"/>
 								</option>
+								<option id="gnu.cpp.compiler.option.other.other.14942310" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -std=gnu++11" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.134725405" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.557186187" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.mingw.exe.release.option.optimization.level.1387066096" name="Optimization Level" superClass="gnu.c.compiler.mingw.exe.release.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.mingw.exe.release.option.debugging.level.61273342" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.none" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.misc.other.1163792638" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0 -std=gnu++11" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1042990065" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release.676602106" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release"/>
@@ -104,7 +107,7 @@
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="BulletCollision"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_system-mgw48-mt-1_53"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="LinearMath"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="GFramework"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Ogaboo"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OgreMain"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OgreOggSoundLib"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OIS"/>
@@ -125,8 +128,9 @@
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_chrono-mgw48-mt-1_53"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.2139912131" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/GFramework/Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ogaboo/Win32_Release}&quot;"/>
 								</option>
+								<option id="gnu.cpp.link.option.flags.417848199" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-std=gnu++11" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.31337714" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -158,7 +162,14 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/Planettack"/>
+		</configuration>
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/Planettack"/>
+		</configuration>
+	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>
