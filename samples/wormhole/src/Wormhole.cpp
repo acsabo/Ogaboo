@@ -10,6 +10,7 @@ Wormhole::Wormhole()
     videoScene = new VideoScene(this);
     //loginScene = new LoginScene(this);
     //mainMenuScene = new MainMenuScene(this);
+	//immerse = new Immerse(this);
 }
 
 Wormhole::~Wormhole()
@@ -19,4 +20,5 @@ Wormhole::~Wormhole()
     delete loginScene;
     delete mainMenuScene;
     delete mainScene;
+    delete immerse;
 }

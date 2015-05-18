@@ -7,6 +7,7 @@
 #include "LoginScene.h"
 #include "MainScene.h"
 #include "MainMenuScene.h"
+#include "Immerse.h"
 
 using namespace Ogaboo;
 
@@ -22,6 +23,8 @@ class Wormhole : public GBaseClass
         MainMenuScene* mainMenuScene;
         LoginScene* loginScene;
         MainScene* mainScene;
+        Immerse* immerse;
+
 };
 
 #endif // WORMHOLE_H
