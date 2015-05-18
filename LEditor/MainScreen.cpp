@@ -495,6 +495,8 @@ void subscribeEvent(const CEGUI::String& widget, const CEGUI::String& event, con
 
 void MainScreen::createScene(void)
 {
+	Ogre::LogManager::getSingleton().logMessage("*** ---  MainScreen::createScene --- ***", Ogre::LML_NORMAL);
+
 	// I create a light. The scenemanager will contain it.
 	// I will attach this light to a scenenode, so that I can move it easily.
 	// (This will add 1 transformation matrix, but I prefer to control motion homogeneously for all elements).
@@ -523,7 +525,7 @@ void MainScreen::createScene(void)
 		lLightSceneNode->attachObject(lLight);
 		lLightSceneNode->setPosition(0, 500, 0);
 	}
-
+	Ogre::LogManager::getSingleton().logMessage("*** ---  MainScreen::createScene1 --- ***", Ogre::LML_NORMAL);
 	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
 //	CEGUI::SchemeManager::getSingleton().createFromFile("VanillaSkin.scheme");
 //	CEGUI::SchemeManager::getSingleton().createFromFile("GameMenuSample.scheme");
@@ -531,7 +533,7 @@ void MainScreen::createScene(void)
 
 	CEGUI::Window* guiRoot = CEGUI::WindowManager::getSingleton().loadLayoutFromFile( "ledit_main.layout");//GameMenu.layout" );
 	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow( guiRoot );
-
+	Ogre::LogManager::getSingleton().logMessage("*** ---  MainScreen::createScene11 --- ***", Ogre::LML_NORMAL);
 	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
 
     subscribeEvent("Menubar/mi_quit", CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainScreen::quit, this));

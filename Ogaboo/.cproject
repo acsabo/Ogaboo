@@ -10,7 +10,7 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Ogaboo"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Ogaboo/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Ogaboo_d" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Ogaboo_d"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -159,7 +159,7 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Ogaboo"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Ogaboo/Win32_Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Ogaboo_d" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Ogaboo_d"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -467,7 +467,7 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Ogaboo"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Ogaboo/Win32_Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Ogaboo" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Ogaboo"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -566,7 +566,7 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Ogaboo"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Ogaboo/Linux_Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="Ogaboo" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Ogaboo"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>

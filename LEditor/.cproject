@@ -67,6 +67,8 @@
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
@@ -75,7 +77,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.release.830487055." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.release.1816080814" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.1506115106" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>
-							<builder buildPath="${workspace_loc:/LEditor/Release}" id="org.eclipse.cdt.build.core.internal.builder.343629119" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder buildPath="${workspace_loc:/LEditor}/Release" id="cdt.managedbuild.builder.gnu.cross.2023537098" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.builder.gnu.cross"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release.530670422" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release">
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1659300535" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -123,22 +125,22 @@
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="BulletCollision"/>
 									<listOptionValue builtIn="false" value="boost_system-mgw48-mt-1_53"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="LinearMath"/>
-									<listOptionValue builtIn="false" value="Ogaboo"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="CEGUIBase-0.dll"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="CEGUIOgreRenderer-0.dll"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="theoraplayer"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="tinyxml"/>
 									<listOptionValue builtIn="false" value="boost_filesystem-mgw48-mt-1_53"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OpenAL32.dll"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="ConvexDecomposition"/>
-									<listOptionValue builtIn="false" value="OgreMain.dll"/>
-									<listOptionValue builtIn="false" value="OIS.dll"/>
-									<listOptionValue builtIn="false" value="theora"/>
-									<listOptionValue builtIn="false" value="ogg"/>
-									<listOptionValue builtIn="false" value="vorbis"/>
 									<listOptionValue builtIn="false" value="OgreOverlay.dll"/>
 									<listOptionValue builtIn="false" value="OgreTerrain.dll"/>
+									<listOptionValue builtIn="false" value="Ogaboo"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="theoraplayer"/>
+									<listOptionValue builtIn="false" value="theora"/>
+									<listOptionValue builtIn="false" value="vorbis"/>
+									<listOptionValue builtIn="false" value="ogg"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="CEGUIBase-0.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="CEGUIOgreRenderer-0.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OpenAL32.dll"/>
 									<listOptionValue builtIn="false" value="OgreOggSoundLib"/>
+									<listOptionValue builtIn="false" value="OIS.dll"/>
+									<listOptionValue builtIn="false" value="OgreMain.dll"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1191940051" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ogaboo/Win32_Release}&quot;"/>

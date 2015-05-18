@@ -60,6 +60,12 @@ cmake . -G "MSYS Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=/mingw -DCEGUI_BUILD_REN
 download from (http://libtheoraplayer.cateia.com/wiki/index.php?title=Setup)
 http://sourceforge.net/p/libtheoraplayer/code/190/tarball?path=/tags/1.0.0
 
+
+Download libtheoraplayer dependencies:
+libogg-1.3.2.zip, libvorbis-1.3.5.zip and libtheora-1.1.1.zip from https://www.xiph.org/downloads/
+extract and compile each one with:
+./configure --prefix=/mingw && make && make install
+
 ---
 abra o workspace no Code::Blocks e importe o arquivo libtheoraplayer
 Se der erro de compilação: adicionar #include <string.h> no topo do arquivo
