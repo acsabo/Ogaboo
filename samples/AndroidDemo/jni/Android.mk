@@ -287,6 +287,7 @@ LOCAL_MODULE    := native-activity
 LOCAL_C_INCLUDES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/OIS \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/OGRE \
+					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/Ogaboo \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/OGRE/RenderSystems \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/OGRE/RenderSystems/GLES2 \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/bullet \
@@ -315,3 +316,4 @@ include $(BUILD_SHARED_LIBRARY)
 $(call import-module,android/native_app_glue) 
 $(call import-module,android/cpufeatures)
 $(call import-module,android/support)
+
