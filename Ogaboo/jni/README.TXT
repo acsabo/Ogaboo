@@ -1,5 +1,6 @@
 FROM Msys console type:
 $ cd <profile>/git/ogaboo-code/Ogaboo/jni/
+i.e -> $ cd /c/Users/a.sabo/git/ogaboo-code/Ogaboo/jni/
 $ ndk-build
 [armeabi] Cygwin         : Generating dependency file converter script
 [armeabi] Compile++ thumb: Ogaboo <= DotSceneLoader.cpp
@@ -19,5 +20,4 @@ m, ALint)' [-Wconversion-null]
 
 $ export NDK_ROOT=/c/android/android-ndk-r10c
 
-$ cp ../obj/local/armeabi/libOgaboo.a $NDK_ROOT/toolchains/arm-linux-androideab
-i-4.8/prebuilt/windows/user/lib
+$ cp ../obj/local/armeabi/libOgaboo.a $NDK_ROOT/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib

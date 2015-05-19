@@ -1,0 +1,60 @@
+USE ECLIPSE 32 BITS
+
+http://eclipse.c3sl.ufpr.br/technology/epp/downloads/release/luna/SR1a/eclipse-cpp-luna-SR1a-win32.zip
+http://www.eclipse.org/forums/index.php/t/197552/
+
+
+extract to
+C:\MinGW\msys\1.0\home\a.sabo\win_32\libtheoraplayer-code-190-tags-1.0.0
+Open Code::Blocks and 
+File->Import Project->MS Visual Solution and choose libtheoraplayer_2012.sln
+Answer 'yes' to all questions
+close composite_animation project
+File->Import Project->MS Visual Project, select 'All Files' in the filter and then select file at vorbis\win32\VS2012\vorbis_static.sln
+for all projects, open project properties, select tab 'Build targets' and for profile Release Win32 choose:
+type = 'Static Library'
+Output file name accordingly, such as:
+libvorbisfile.a
+libvorbis.a
+libogg.a
+libtheora.a
+libtheoraplayer.a
+
+Select 'Release Win32' profile at the Code::Blocks toolbar as weel;
+
+Open libtheora project 'Build Options' and remove OC_X86_ASM definition from its 'Release Win32' profile;
+Open libtheoraplayer project 'Build Options' and remove THEORAVIDEO_EXPORTS definition from its 'Release Win32' profile;
+
+
+Select 'Build workspace'
+
+if you get an error like this:
+C:\MinGW\msys\1.0\home\a.sabo\win_32\libtheoraplayer-code-190-tags-1.0.0\theoraplayer\src\TheoraVideoFrame.cpp|80|error: 'memset' was not declared in this scope|
+in TheoraVideoFrame.cpp, just add the following:
+#include <strings.h>
+
+File->Save workspace
+
+-----
+File->Import Project->MS Visual Project and choose theoraplayer\libtheoraplayer_2008.vcproj
+open project properties, select tab 'Build targets' and for profile Release Win32 choose:
+type = 'Static Library'
+set Output file name  to $(SolutionDir)bin\Win32\libtheoraplayer.a
+Build the project.
+
+you should copy all the following files to c:\Mingw\lib
+libvorbisfile.a
+libvorbis.a
+libogg.a
+libtheora.a
+libtheoraplayer.a
+
+copy all headers too c:\Mingw\include
+
+libtheoraplayer-code-190-tags-1.0.0\ogg\include\ogg
+libtheoraplayer-code-190-tags-1.0.0\vorbis\include\vorbis
+libtheoraplayer-code-190-tags-1.0.0\theora\include\theora
+libtheoraplayer-code-190-tags-1.0.0\theoraplayer\include\theoraplayer
+
+File->Save everything
+you are done!
