@@ -47,7 +47,7 @@ void LineReader::addVertex(double point[], double bulge){
 void LineReader::readLines(const char * filename) {
   DL_Dxf * getData = new DL_Dxf();
   if (!getData->in(filename, this)) {
-    fprintf(stderr, "readLines.\n");
+    fprintf(stderr, "ERROR.\n");
     delete getData;
     //exit(1);
   }
