@@ -14,6 +14,12 @@ class Immerse : public GAbstractHandler
         void createScene(void);
         bool draw(const Ogre::FrameEvent& evt);
 
+        bool mouseMoved(const OIS::MouseEvent &arg);
+        bool mousePressed(const OIS::MouseEvent& arg, OIS::MouseButtonID id);
+        bool mouseReleased(const OIS::MouseEvent& arg, OIS::MouseButtonID id);
+
+        bool keyPressed( const OIS::KeyEvent &arg );
+        bool keyReleased( const OIS::KeyEvent &arg );
     protected:
     private:
 };

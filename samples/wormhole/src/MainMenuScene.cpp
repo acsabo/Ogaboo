@@ -6,7 +6,7 @@
 #include <OgreBullet/Collisions/Shapes/OgreBulletCollisionsTerrainShape.h>
 #include <OgreBullet/Collisions/Shapes/OgreBulletCollisionsSphereShape.h>
 
-#include <BULLET/BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
 #include "string.h" // for the memcpy
 
 //Bullet API
