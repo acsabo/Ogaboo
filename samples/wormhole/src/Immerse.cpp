@@ -45,6 +45,9 @@ void Immerse::setup(void)
 
     // Create one viewport, entire window
     Ogre::Viewport* vp = this->game->mWindow->addViewport(mCamera);
+    int maxW = vp->getActualWidth();
+    int maxH = vp->getActualHeight();
+
     vp->setBackgroundColour(Ogre::ColourValue::Blue);
     vp->setDimensions(0,0,0.5,1);
 
@@ -56,6 +59,17 @@ void Immerse::setup(void)
     // Alter the camera aspect ratio to match the viewport
     mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
     mCamera2->setAspectRatio(Ogre::Real(vp2->getActualWidth()) / Ogre::Real(vp2->getActualHeight()));
+
+
+    //this->game->mWindow->setFullscreen(TRUE, maxW, maxH);
+	// Make sure we use the window size as originally requested, NOT the
+	// current window size (which may have altered to fit desktop)
+	const Ogre::ConfigOptionMap::iterator opti =
+			this->game->mRoot->getRenderSystem()->getConfigOptions().find("Video Mode");
+	Ogre::StringVector vmopts = Ogre::StringUtil::split(opti->second.currentValue, " x");
+	unsigned int w = Ogre::StringConverter::parseUnsignedInt(vmopts[0]);
+	unsigned int h = Ogre::StringConverter::parseUnsignedInt(vmopts[1]);
+	this->game->mWindow->setFullscreen(!this->game->mWindow->isFullScreen(), w, h);
 }
 
 void Immerse::createScene(void)
