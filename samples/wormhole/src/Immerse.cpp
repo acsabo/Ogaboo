@@ -45,6 +45,14 @@ void Immerse::setup(void)
 
     // Create one viewport, entire window
     Ogre::Viewport* vp = this->game->mWindow->addViewport(mCamera);
+
+	// Make sure we use the window size as originally requested, NOT the
+	// current window size (which may have altered to fit desktop)
+	const Ogre::ConfigOptionMap::iterator opti = this->game->mRoot->getRenderSystem()->getConfigOptions().find("Video Mode");
+	Ogre::StringVector vmopts = Ogre::StringUtil::split(opti->second.currentValue, " x");
+	unsigned int w = Ogre::StringConverter::parseUnsignedInt(vmopts[0]);
+	unsigned int h = Ogre::StringConverter::parseUnsignedInt(vmopts[1]);
+
    // vp->setBackgroundColour(Ogre::ColourValue::Black);
     vp->setDimensions(0,0,0.5,1);
 
@@ -58,15 +66,6 @@ void Immerse::setup(void)
 
     Ogre::Light* light = mSceneMgr->createLight("MainLight");
     light->setPosition(20, 80, 50);
-
-    //this->game->mWindow->setFullscreen(TRUE, maxW, maxH);
-	// Make sure we use the window size as originally requested, NOT the
-	// current window size (which may have altered to fit desktop)
-	const Ogre::ConfigOptionMap::iterator opti =
-			this->game->mRoot->getRenderSystem()->getConfigOptions().find("Video Mode");
-	Ogre::StringVector vmopts = Ogre::StringUtil::split(opti->second.currentValue, " x");
-	unsigned int w = Ogre::StringConverter::parseUnsignedInt(vmopts[0]);
-	unsigned int h = Ogre::StringConverter::parseUnsignedInt(vmopts[1]);
 	this->game->mWindow->setFullscreen(!this->game->mWindow->isFullScreen(), w, h);
 }
 
@@ -138,8 +137,6 @@ bool Immerse::draw(const Ogre::FrameEvent& evt)
 	Ogre::Vector3 src = nodeCursor->getOrientation() * Ogre::Vector3::UNIT_X;
 	Ogre::Quaternion quat = src.getRotationTo(nodeCursor->getPosition());
 	nodeCursor->yaw(Ogre::Degree(0.01f));
-	//game->mWindow->getViewport(0)->clear(Ogre::FBT_COLOUR | Ogre::FBT_DEPTH, Ogre::ColourValue::Black, 1.0f, 0);
-	//game->mWindow->getViewport(1)->clear(Ogre::FBT_COLOUR | Ogre::FBT_DEPTH, Ogre::ColourValue::Black, 1.0f, 0);
 	mCameraMan->frameRenderingQueued(evt);
 	mCameraMan2->frameRenderingQueued(evt);
     return true;
