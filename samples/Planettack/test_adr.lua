@@ -75,15 +75,17 @@ local Hero = Spacecraft {
 }
 
 --MainScene:addObject(Hero:getName(), Hero)
-
+--
 --for i=1, #enemies do
 --  MainScene:addObject(enemies[i]:getName(), enemies[i])
 --end
 
 --while LControl:Alive() do
+--
 --  for i, obj in ipairs(enemies) do
 --    obj:Move();
 --  end
+--
 --end
 
 print ("FIM")

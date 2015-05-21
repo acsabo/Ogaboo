@@ -42,12 +42,12 @@ void MainScene::createScene(void)
     game->mDotScene->parseDotScene("terrain01.scene","General",mSceneMgr);
 }
 
-    //Ogre::Vector3 m_rotation_pivot = Ogre::Vector3(10,15,10);
-    //Ogre::Vector3 m_delta_movement = Ogre::Vector3(0.00f,0.001f,0.00f);
+Ogre::Vector3 m_rotation_pivot = Ogre::Vector3(10,15,10);
+Ogre::Vector3 m_delta_movement = Ogre::Vector3(0.00f,0.001f,0.00f);
 
 bool MainScene::draw(const Ogre::FrameEvent& evt)
 {
-    /*
+
     Ogre::Vector3 camera_x_axis = mCamera->getDerivedRight();
     Ogre::Vector3 camera_y_axis = mCamera->getDerivedUp();
 
@@ -83,7 +83,7 @@ bool MainScene::draw(const Ogre::FrameEvent& evt)
     Ogre::Vector3 camera_offset = mCamera->getDerivedDirection() * (-rotation_radius);
     mCamera->setPosition(m_rotation_pivot + camera_offset);
     //mCamera->lookAt(Ogre::Vector3(0,0,0));
-*/
+
     return true;
 }
 

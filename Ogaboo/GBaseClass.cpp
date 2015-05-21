@@ -412,7 +412,7 @@ bool GBaseClass::init(void)
 //-------------------------------------------------------------------------------------
 bool GBaseClass::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-	Ogre::LogManager::getSingleton().logMessage("*** ---  frameRenderingQueued --- ***", Ogre::LML_NORMAL);
+//	Ogre::LogManager::getSingleton().logMessage("*** ---  frameRenderingQueued --- ***", Ogre::LML_NORMAL);
     if(mWindow->isClosed())
         return false;
     if(mShutDown)

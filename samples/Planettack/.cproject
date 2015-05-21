@@ -121,11 +121,9 @@
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="libOgreTerrain"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_filesystem-mgw48-mt-1_53"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OpenAL32.dll"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_thread-mgw48-mt-1_53"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="LuaCppInterface"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="lua"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="ws2_32"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_chrono-mgw48-mt-1_53"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.2139912131" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ogaboo/Win32_Release}&quot;"/>

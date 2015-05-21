@@ -56,6 +56,7 @@ void callback(const char* data_, int max_length)
 
 void MainScene::setup(void)
 {
+	Ogre::LogManager::getSingleton().logMessage("*** ---  MainScene::setup1 --- ***", Ogre::LML_NORMAL);
     // Get the SceneManager, in this case a generic one
     mSceneMgr = this->game->mRoot->createSceneManager(Ogre::ST_GENERIC);
 
@@ -79,10 +80,12 @@ void MainScene::setup(void)
 
 
     //Networking
-//    GNetworking::instance().setCallback(&callback);
+ //   GNetworking::instance().setCallback(&callback);
 
 	//connect
 //	GNetworking::instance().start("appz", "acsabo", "password");
+    Ogre::LogManager::getSingleton().logMessage("*** ---  MainScene::setup --- ***", Ogre::LML_NORMAL);
+
 }
 
 bool MainScene::keyPressed( const OIS::KeyEvent &arg )
@@ -95,7 +98,7 @@ bool MainScene::keyPressed( const OIS::KeyEvent &arg )
     if (arg.key == OIS::KC_ESCAPE)
     {
     	//quit
-//    	GNetworking::instance().quit();
+    	//GNetworking::instance().quit();
     }
 
     GAbstractHandler::keyPressed(arg);
@@ -105,8 +108,11 @@ bool MainScene::keyPressed( const OIS::KeyEvent &arg )
 
 void MainScene::createScene(void)
 {
+    Ogre::LogManager::getSingleton().logMessage("*** ---  MainScene::setup2 --- ***", Ogre::LML_NORMAL);
+
 	lControl = new LControl(this, "test_adr.lua");
 	lControl->run();
+    Ogre::LogManager::getSingleton().logMessage("*** ---  MainScene::setup3 --- ***", Ogre::LML_NORMAL);
 
 //	boost::thread mythread(&LControl::run, lControl);
 //
@@ -143,6 +149,7 @@ char request[] = "appz:acsabo:update: blah blah blah :\0";
 
 bool MainScene::draw(const Ogre::FrameEvent& evt)
 {
+    Ogre::LogManager::getSingleton().logMessage("*** ---  MainScene::setup5 --- ***", Ogre::LML_NORMAL);
 
 	for ( auto local_it = objects.begin(); local_it!= objects.end(); ++local_it  )
 	{
