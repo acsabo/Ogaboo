@@ -149,7 +149,7 @@ char request[] = "appz:acsabo:update: blah blah blah :\0";
 
 bool MainScene::draw(const Ogre::FrameEvent& evt)
 {
-    Ogre::LogManager::getSingleton().logMessage("*** ---  MainScene::setup5 --- ***", Ogre::LML_NORMAL);
+//    Ogre::LogManager::getSingleton().logMessage("*** ---  MainScene::setup5 --- ***", Ogre::LML_NORMAL);
 
 	for ( auto local_it = objects.begin(); local_it!= objects.end(); ++local_it  )
 	{
