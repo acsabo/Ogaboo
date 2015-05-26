@@ -6,7 +6,7 @@
 //
 //using namespace std::placeholders;
 
-//#define BOOST_BIND_NO_PLACEHOLDERS
+#define BOOST_BIND_NO_PLACEHOLDERS
 //#include <boost/thread.hpp>
 //#include <boost/date_time.hpp>
 // for back-compatibility ...

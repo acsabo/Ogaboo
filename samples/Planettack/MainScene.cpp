@@ -77,7 +77,8 @@ void MainScene::setup(void)
 
     // Alter the camera aspect ratio to match the viewport
     mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
-
+    Ogre::Light* light = mSceneMgr->createLight("MainLight");
+    light->setPosition(20, 80, 50);
 
     //Networking
  //   GNetworking::instance().setCallback(&callback);

@@ -105,6 +105,7 @@ void GBaseClass::destroyScene(void)
 
 void GBaseClass::createScene(void)
 {
+	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene  --- ***", Ogre::LML_NORMAL);
 	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 1 ***");
 
     //INICIA O CEGUI para todas as Scenes
@@ -123,6 +124,7 @@ void GBaseClass::createScene(void)
 //
 //    // load scheme and set up defaults
 //	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
+	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene2  --- ***", Ogre::LML_NORMAL);
 
     //Init Sound API
     mSoundManager = OgreOggSound::OgreOggSoundManager::getSingletonPtr();
@@ -132,11 +134,13 @@ void GBaseClass::createScene(void)
     	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** OgreOggSound : Init error. No sound device ***");
         Ogre::LogManager::getSingletonPtr()->logMessage("*** OgreOggSound : Init error. No sound device ***");
     }
+	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene3  --- ***", Ogre::LML_NORMAL);
 
     //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 37 ***");
     //Init Video API (passing the sound device)
     videoClipManager = new VideoClipManager(mSoundManager);
     //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 38 ***");
+	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene4  --- ***", Ogre::LML_NORMAL);
 
     if (GAHandlers[0]->getAutoCreateScene())
         GAHandlers[0]->createScene();
