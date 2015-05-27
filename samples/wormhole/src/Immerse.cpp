@@ -24,7 +24,7 @@ void Immerse::setup(void)
     // Create the camera
     mCamera = mSceneMgr->createCamera("PlayerCam");
     // Position it at 500 in Z direction
-    mCamera->setPosition(Ogre::Vector3(15,15,15));
+    mCamera->setPosition(Ogre::Vector3(-2,15,15));
 
     // Look back along -Z
     mCamera->lookAt(Ogre::Vector3(0,0,0));
@@ -33,7 +33,7 @@ void Immerse::setup(void)
     // Create the camera 2
     Ogre::Camera* mCamera2 = mSceneMgr->createCamera("PlayerCam2");
     // Position it at 500 in Z direction
-    mCamera2->setPosition(Ogre::Vector3(15,15,15));
+    mCamera2->setPosition(Ogre::Vector3(2,15,15));
 
     // Look back along -Z
     mCamera2->lookAt(Ogre::Vector3(0,0,0));

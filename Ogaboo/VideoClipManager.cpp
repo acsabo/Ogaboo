@@ -22,7 +22,10 @@ using namespace Ogaboo;
 
 VideoClipManager::VideoClipManager(OgreOggSound::OgreOggSoundManager* mSoundManager)
 {
+	Ogre::LogManager::getSingleton().logMessage("*** --- VideoClipManager::VideoClipManager1  --- ***", Ogre::LML_NORMAL);
 	iface_factory = new OpenAL_AudioInterfaceFactory(mSoundManager->getOpenalDevice());
+
+	Ogre::LogManager::getSingleton().logMessage("*** --- VideoClipManager::VideoClipManager2  --- ***", Ogre::LML_NORMAL);
 	setAudioInterfaceFactory(iface_factory);
 }
 

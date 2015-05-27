@@ -105,46 +105,46 @@ LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/win
 include $(PREBUILT_STATIC_LIBRARY)
 
 # CEGUI_Base
-include $(CLEAR_VARS)
-LOCAL_MODULE := CEGUI_Base
-LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUIBase-9999_Static.a
-include $(PREBUILT_STATIC_LIBRARY)
-
-# CEGUI_Ogre_Renderer
-include $(CLEAR_VARS)
-LOCAL_MODULE := CEGUI_Ogre_Renderer
-LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUIOgreRenderer-9999_Static.a
-include $(PREBUILT_STATIC_LIBRARY)
-
-# CEGUIFreeImageImageCodec_Static
-include $(CLEAR_VARS)
-LOCAL_MODULE := CEGUIFreeImageImageCodec_Static
-LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUIFreeImageImageCodec_Static.a
-include $(PREBUILT_STATIC_LIBRARY)
-
-# CEGUICoreWindowRendererSet_Static
-include $(CLEAR_VARS)
-LOCAL_MODULE := CEGUICoreWindowRendererSet_Static
-LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUICoreWindowRendererSet_Static.a
-include $(PREBUILT_STATIC_LIBRARY)
-
-# CEGUICommonDialogs_Static
-include $(CLEAR_VARS)
-LOCAL_MODULE := CEGUICommonDialogs_Static
-LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUICommonDialogs-9999_Static.a
-include $(PREBUILT_STATIC_LIBRARY)
-
-# CEGUITinyXMLParser_Static
-include $(CLEAR_VARS)
-LOCAL_MODULE := CEGUITinyXMLParser_Static
-LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUITinyXMLParser_Static.a
-include $(PREBUILT_STATIC_LIBRARY)
-
-# libCEGUIOpenGLRenderer
-include $(CLEAR_VARS)
-LOCAL_MODULE := libCEGUIOpenGLRenderer
-LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUIOgreRenderer-9999_Static.a
-include $(PREBUILT_STATIC_LIBRARY)
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := CEGUI_Base
+#LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUIBase-9999_Static.a
+#include $(PREBUILT_STATIC_LIBRARY)
+#
+## CEGUI_Ogre_Renderer
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := CEGUI_Ogre_Renderer
+#LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUIOgreRenderer-9999_Static.a
+#include $(PREBUILT_STATIC_LIBRARY)
+#
+## CEGUIFreeImageImageCodec_Static
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := CEGUIFreeImageImageCodec_Static
+#LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUIFreeImageImageCodec_Static.a
+#include $(PREBUILT_STATIC_LIBRARY)
+#
+## CEGUICoreWindowRendererSet_Static
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := CEGUICoreWindowRendererSet_Static
+#LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUICoreWindowRendererSet_Static.a
+#include $(PREBUILT_STATIC_LIBRARY)
+#
+## CEGUICommonDialogs_Static
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := CEGUICommonDialogs_Static
+#LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUICommonDialogs-9999_Static.a
+#include $(PREBUILT_STATIC_LIBRARY)
+#
+## CEGUITinyXMLParser_Static
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := CEGUITinyXMLParser_Static
+#LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUITinyXMLParser_Static.a
+#include $(PREBUILT_STATIC_LIBRARY)
+#
+## libCEGUIOpenGLRenderer
+#include $(CLEAR_VARS)
+#LOCAL_MODULE := libCEGUIOpenGLRenderer
+#LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libCEGUIOgreRenderer-9999_Static.a
+#include $(PREBUILT_STATIC_LIBRARY)
 
 # OIS
 include $(CLEAR_VARS)
@@ -174,12 +174,6 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_MODULE := pcre
 LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libpcre.a
-include $(PREBUILT_STATIC_LIBRARY)
-
-# Ogaboo
-include $(CLEAR_VARS)
-LOCAL_MODULE := Ogaboo
-LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libOgaboo.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 # openal
@@ -280,6 +274,13 @@ include $(PREBUILT_STATIC_LIBRARY)
 
 #---------------
 
+# Ogaboo
+include $(CLEAR_VARS)
+LOCAL_MODULE := Ogaboo
+#LOCAL_SRC_FILES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/lib/libOgaboo.a
+LOCAL_SRC_FILES := /c/Users/Adriano/git/ogaboo-code/Ogaboo/obj/local/armeabi/libOgaboo.a
+include $(PREBUILT_STATIC_LIBRARY)
+
 include $(CLEAR_VARS) 
 
 LOCAL_MODULE    := native-activity 
@@ -287,13 +288,12 @@ LOCAL_MODULE    := native-activity
 LOCAL_C_INCLUDES := $(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/OIS \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/OGRE \
-					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/Ogaboo \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/OGRE/RenderSystems \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/OGRE/RenderSystems/GLES2 \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/bullet \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/ogrebullet/Collisions \
 					$(NDK_ROOT)/toolchains/arm-linux-androideabi-4.8/prebuilt/windows/user/include/ogrebullet/Dynamics \
-					/C/Users/Adriano/git/Ogaboo/headers
+					/C/Users/Adriano/git/ogaboo-code/Ogaboo/headers
 
 LOCAL_SRC_FILES := \
         $(subst $(LOCAL_PATH)/,, \
@@ -301,9 +301,8 @@ LOCAL_SRC_FILES := \
 
 LOCAL_STATIC_LIBRARIES := android_native_app_glue Ogaboo OgreRTShaderSystemStatic Plugin_ParticleFXStatic RenderSystem_GLES2Static OgreOggSound_Static vorbis_file vorbis ogg \
 						mesa OgreBulletCollisions OgreBulletDynamics Bullet theora theora_player OgreTerrainStatic boost_filesystem \
-						LuaCppInterface luacore CEGUI_Base CEGUICommonDialogs_Static CEGUI_Ogre_Renderer OgreMainStatic \
-						libCEGUIOpenGLRenderer CEGUIFreeImageImageCodec_Static CEGUICoreWindowRendererSet_Static \
-						CEGUITinyXMLParser_Static boost_system boost_thread LibZzip LibZlib FreeImage FreeType OIS TinyXml pcre openal cpufeatures Plugin_OgreVideo_static 
+						LuaCppInterface luacore OgreMainStatic \
+						boost_system boost_thread LibZzip LibZlib FreeImage FreeType OIS TinyXml pcre openal cpufeatures Plugin_OgreVideo_static 
 												 
 #LOCAL_SHARED_LIBRARIES := OgreOggSound Plugin_OgreVideo
 						

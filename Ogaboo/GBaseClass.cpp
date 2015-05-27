@@ -108,8 +108,10 @@ void GBaseClass::createScene(void)
 	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene  --- ***", Ogre::LML_NORMAL);
 	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 1 ***");
 
-    //INICIA O CEGUI para todas as Scenes
-    mRenderer = &CEGUI::OgreRenderer::bootstrapSystem(); //create(*mWindow);
+	#if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
+		//INICIA O CEGUI para todas as Scenes
+		mRenderer = &CEGUI::OgreRenderer::bootstrapSystem(); //create(*mWindow);
+	#endif
 
 	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 2 ***");
 
@@ -547,7 +549,7 @@ void GBaseClass::renderOneFrame()
     Ogre::WindowEventUtilities::messagePump();
 	mRoot->renderOneFrame();
 
-	////__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::renderOneFrame END ***");
+	__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::renderOneFrame END ***");
 }
 #else
 

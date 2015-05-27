@@ -57,61 +57,12 @@ NativeApp app;
 Acsabo::Game* game;
 
 static int32_t handleInput(struct android_app* app, AInputEvent* event) {
-//	    if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION)
-//	    {
-//	        float x = AMotionEvent_getX(event, 0);
-//	        float y = AMotionEvent_getY(event, 0);
-//
-//	        LOGW("MOTION: x=%d y=%d", (int)x, (int)y);
-//
-//	        if( abs(x - lastPos.x) < 25)
-//	        {
-//	        	CameraRot.x += (x - lastPos.x) * 0.01;
-//	        }
-//
-//	        if( abs(y - lastPos.y)< 25)
-//	        {
-//	        	CameraRot.y += (y - lastPos.y) * 0.01;
-//	        }
-//
-//	        camera->setPosition( cos( CameraRot.x) * 20,  sin( CameraRot.y) * 20 , -sin( CameraRot.x) * 20 );
-//	    	camera->lookAt(0,0,0);
-//
-//	        lastPos.x = x;
-//	        lastPos.y = y;
-//
-//
-//	        if(textArea != NULL)
-//	        {
-//				char text[300];
-//				sprintf(text, "X:%d Y:%d", (int)x, (int)y);
-//				textArea->setCaption( text );
-//	        }
-//
-//	            /*
-//	        	This next big chunk basically sends a raycast straight down from the camera's position
-//	        	It then checks to see if it is under world geometry and if it is we move the camera back up
-//	        	*/
-//	        	//Ogre::Vector3 camPos = camera->getPosition();
-//	        	//Ogre::Ray cameraRay(Ogre::Vector3(camPos.x, 5000.0f, camPos.z), Ogre::Vector3::NEGATIVE_UNIT_Y);
-//        	    //mRayScnQuery->setRay(cameraRay);
-//
-//	        	//create a raycast straight out from the camera at the mouse's location
-//				Ogre::Ray mouseRay = camera->getCameraToViewportRay( x/float(vp->getActualWidth()),  y/float(vp->getActualHeight()));
-//				mRayScnQuery->setRay(mouseRay);
-//
-//	        	Ogre::RaySceneQueryResult& result = mRayScnQuery->execute();
-//	        	Ogre::RaySceneQueryResult::iterator iter = result.begin();
-//
-//	        	if(iter != result.end() && iter->movable)
-//	        	{
-//	        		LOGW("SELECT: %s", iter->movable->getName().c_str());
-//	        	}
-//	        	return true;
-//
-//
-//	        return 1;
-//	    }
+
+	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION)
+	{
+		__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** Game::handleInput ***");
+	}
+
 	return 0;
 }
 

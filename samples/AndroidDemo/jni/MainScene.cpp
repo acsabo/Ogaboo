@@ -47,6 +47,8 @@ void MainScene::addObject(const std::string name, GObj* obj) {
 	__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** MainScene::addObject ***");
 }
 
+
+OgreBites::SdkCameraMan* mCameraMan2;
 void MainScene::setup(void)
 {
     // Get the SceneManager, in this case a generic one
@@ -57,16 +59,33 @@ void MainScene::setup(void)
     mCamera = mSceneMgr->createCamera("MyCam");
 
     // Position it at 500 in Z direction
-    mCamera->setPosition(Ogre::Vector3(8,8,8));
+    mCamera->setPosition(Ogre::Vector3(2,18,18));
 
     // Look back along -Z
     mCamera->lookAt(Ogre::Vector3(0,0,0));
-    mCamera->setNearClipDistance(5);
-    mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+    mCamera->setNearClipDistance(1);
+
+    // Create the camera 2
+	Ogre::Camera* mCamera2 = mSceneMgr->createCamera("PlayerCam2");
+	// Position it at 500 in Z direction
+	mCamera2->setPosition(Ogre::Vector3(2,18,18));
+
+	// Look back along -Z
+	mCamera2->lookAt(Ogre::Vector3(0,0,0));
+	mCamera2->setNearClipDistance(1);
+
+	mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+
+	mCameraMan2 = new OgreBites::SdkCameraMan(mCamera2);
 
     // Create one viewport, entire window
     Ogre::Viewport* vp = this->game->mWindow->addViewport(mCamera);
-    vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+    vp->setBackgroundColour(Ogre::ColourValue::Black);
+    vp->setDimensions(0,0,0.5,1);
+
+    Ogre::Viewport* vp2 = this->game->mWindow->addViewport(mCamera2, 1);
+    vp2->setBackgroundColour(Ogre::ColourValue::Black);
+    vp2->setDimensions(0.5,0,0.5,1);
 
     //Shader
 	bool success = initialiseRTShaderSystem(mSceneMgr);
@@ -78,7 +97,9 @@ void MainScene::setup(void)
 	}
 
     // Alter the camera aspect ratio to match the viewport
-    mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+    mCamera->setAspectRatio(Ogre::Real(2*vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+    mCamera2->setAspectRatio(Ogre::Real(2*vp2->getActualWidth()) / Ogre::Real(vp2->getActualHeight()));
+
     __android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** MainScene::setup end***");
 
     Ogre::Root::getSingleton().getRenderSystem()->setFixedPipelineEnabled(false);
@@ -150,12 +171,13 @@ void MainScene::createScene(void)
 
 bool MainScene::draw(const Ogre::FrameEvent& evt)
 {
-//	__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** MainScene::draw ***");
+	__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** MainScene::draw ***");
 	for ( auto local_it = objects.begin(); local_it!= objects.end(); ++local_it  )
 	{
 		GObj* obj = local_it->second;
 		obj->Update(evt.timeSinceLastFrame);
 	}
+	mCameraMan->frameRenderingQueued(evt);
 	mCameraMan->frameRenderingQueued(evt);
 
     return true;

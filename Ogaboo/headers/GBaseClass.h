@@ -46,12 +46,11 @@ using namespace std;
 #include "OGRE/Android/OgreAPKZipArchive.h"
 #include <OIS/OISMultiTouch.h>
 #else
-#include <OIS/OISMouse.h>
-#endif
-
 //CEGUI API
 #include <CEGUI/CEGUI.h>
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
+#include <OIS/OISMouse.h>
+#endif
 
 //Theora Video Manager
 #include "VideoClipManager.h"
@@ -104,7 +103,6 @@ namespace Ogaboo {
 
             OgreOggSound::OgreOggSoundManager* mSoundManager;
 
-            CEGUI::OgreRenderer* mRenderer; //GUI Manager
 
             CDotScene* mDotScene;
 
@@ -114,6 +112,7 @@ namespace Ogaboo {
             virtual void renderOneFrame();
             void setup(struct android_app* state);
 #else
+            CEGUI::OgreRenderer* mRenderer; //GUI Manager
             virtual void go();
 #endif
 
