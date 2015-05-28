@@ -51,7 +51,7 @@ void GObj::addStep(float x, float y, float z)
 }
 
 void GObj::Update(float tms) {
-this->mNode->rotate(Ogre::Quaternion(Ogre::Degree(10), Ogre::Vector3(1,0,0)) , Ogre::Node::TransformSpace::TS_WORLD);
+	this->mNode->rotate(Ogre::Quaternion(Ogre::Degree(1), Ogre::Vector3(1,0,0)) , Ogre::Node::TransformSpace::TS_WORLD);
 /*
 	if (mDirection == Ogre::Vector3::ZERO) {
 		if (nextLocation()) {

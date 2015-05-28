@@ -23,7 +23,7 @@ public:
     void createScene(void);
     bool draw(const Ogre::FrameEvent& evt);
 
-    void addObject(const std::string name, GObj* obj);
+    Ogre::SceneNode* addObject(const std::string name, GObj* obj);
     bool keyPressed( const OIS::KeyEvent &arg );
 
 

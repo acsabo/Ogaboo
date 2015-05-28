@@ -431,9 +431,8 @@ bool GBaseClass::frameRenderingQueued(const Ogre::FrameEvent& evt)
     mInputContext.capture();
     //Need to inject timestamps to CEGUI System.
     CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
-
-    GAHandlers[currentHandler]->draw(evt);
 #endif
+    GAHandlers[currentHandler]->draw(evt);
 
 //    if (!GAHandlers[currentHandler]->isAlive())
 //    {
@@ -544,12 +543,12 @@ bool GBaseClass::touchCancelled( const OIS::MultiTouchEvent &arg )
 
 void GBaseClass::renderOneFrame()
 {
+	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::renderOneFrame END ***");
 
     // Pump window messages for nice behaviour
     Ogre::WindowEventUtilities::messagePump();
 	mRoot->renderOneFrame();
 
-	__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::renderOneFrame END ***");
 }
 #else
 

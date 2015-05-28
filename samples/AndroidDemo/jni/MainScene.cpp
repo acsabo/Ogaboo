@@ -31,13 +31,13 @@ MainScene::~MainScene() {
 
 }
 
-void MainScene::addObject(const std::string name, GObj* obj) {
+Ogre::SceneNode* MainScene::addObject(const std::string name, GObj* obj) {
 	Ogre::Entity* entity = mSceneMgr->createEntity(name, obj->getFileName());
 	entity->setCastShadows(true);
 	obj->mEntity= entity;
 
 	Ogre::SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	node->setPosition (0, 0, 0);
+	node->setPosition (0, 0, -10);
 	node->attachObject(entity);
 	obj->mNode = node;
 
@@ -45,6 +45,7 @@ void MainScene::addObject(const std::string name, GObj* obj) {
 	objects[name] =  obj;
 
 	__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** MainScene::addObject ***");
+	return node;
 }
 
 
@@ -59,19 +60,19 @@ void MainScene::setup(void)
     mCamera = mSceneMgr->createCamera("MyCam");
 
     // Position it at 500 in Z direction
-    mCamera->setPosition(Ogre::Vector3(2,18,18));
+    mCamera->setPosition(Ogre::Vector3(-2,0,4));
 
     // Look back along -Z
-    mCamera->lookAt(Ogre::Vector3(0,0,0));
+    mCamera->lookAt(Ogre::Vector3(0,0,-10));
     mCamera->setNearClipDistance(1);
 
     // Create the camera 2
 	Ogre::Camera* mCamera2 = mSceneMgr->createCamera("PlayerCam2");
 	// Position it at 500 in Z direction
-	mCamera2->setPosition(Ogre::Vector3(2,18,18));
+	mCamera2->setPosition(Ogre::Vector3(2,0,4));
 
 	// Look back along -Z
-	mCamera2->lookAt(Ogre::Vector3(0,0,0));
+	mCamera2->lookAt(Ogre::Vector3(0,0,-10));
 	mCamera2->setNearClipDistance(1);
 
 	mCameraMan = new OgreBites::SdkCameraMan(mCamera);
@@ -140,7 +141,16 @@ void MainScene::createScene(void)
 //	//mythread.start_thread();
 
 	GObj* o1 = new GObj("models/Ramp.mesh");
-	addObject("teste1", o1);
+	Ogre::SceneNode* n1 = addObject("teste1", o1);
+	n1->setPosition (5, 2, -8);
+
+	GObj* o2 = new GObj("models/Ramp.mesh");
+	Ogre::SceneNode* n2 = addObject("teste2", o2);
+	n2->setPosition (0, 0, -10);
+
+	GObj* o3 = new GObj("models/Ramp.mesh");
+	Ogre::SceneNode* n3 = addObject("teste3", o3);
+	n3->setPosition (-3, -2, -13);
 
 	/**
 	GObj* o = new GObj("models/robot.mesh");
@@ -171,14 +181,14 @@ void MainScene::createScene(void)
 
 bool MainScene::draw(const Ogre::FrameEvent& evt)
 {
-	__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** MainScene::draw ***");
+	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** MainScene::draw ***");
 	for ( auto local_it = objects.begin(); local_it!= objects.end(); ++local_it  )
 	{
 		GObj* obj = local_it->second;
 		obj->Update(evt.timeSinceLastFrame);
 	}
 	mCameraMan->frameRenderingQueued(evt);
-	mCameraMan->frameRenderingQueued(evt);
+	mCameraMan2->frameRenderingQueued(evt);
 
     return true;
 }
