@@ -19,7 +19,7 @@ using namespace std;
 
 using namespace Ogaboo;
 
-short currentHandler = 0;
+int currentHandler = 0;
 
 GBaseClass::GBaseClass()
     : mRoot(0),
@@ -108,6 +108,8 @@ void GBaseClass::createScene(void)
 	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene  --- ***", Ogre::LML_NORMAL);
 	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 1 ***");
 
+	mDotScene = new CDotScene();
+
 	#if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
 		//INICIA O CEGUI para todas as Scenes
 		mRenderer = &CEGUI::OgreRenderer::bootstrapSystem(); //create(*mWindow);
@@ -144,9 +146,13 @@ void GBaseClass::createScene(void)
     //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 38 ***");
 	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene4  --- ***", Ogre::LML_NORMAL);
 
-    if (GAHandlers[0]->getAutoCreateScene())
-        GAHandlers[0]->createScene();
-
+	for (unsigned int i = 0; i < GAHandlers.size(); i++)
+	{
+		if (GAHandlers[i]->getAutoCreateScene())
+		{
+			GAHandlers[i]->createScene();
+		}
+	}
     //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene end ***");
 	Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::createScene  --- ***", Ogre::LML_NORMAL);
 }
@@ -199,7 +205,6 @@ void GBaseClass::loadResources(const char *name)
 
 void GBaseClass::prepare(struct android_app* state)
 {
-    mDotScene = new CDotScene();
     this->status = GSTATUS_LOADING;
     mFSLayer = OGRE_NEW_T(Ogre::FileSystemLayer, Ogre::MEMCATEGORY_GENERAL)(OGRE_VERSION_NAME);
 
@@ -268,7 +273,9 @@ void GBaseClass::setup(struct android_app* state)
        return;
 
    for (unsigned int i = 0; i < GAHandlers.size(); i++)
+   {
         GAHandlers[i]->setup();
+   }
 
    //create Scene of each handler
    createScene();
@@ -399,7 +406,10 @@ bool GBaseClass::init(void)
     if (!carryOn) return false;
     //create manager/camera and viewport for each registered handler
     for (unsigned int i = 0; i < GAHandlers.size(); i++)
+    {
+    	 mWindow->removeAllViewports();
          GAHandlers[i]->setup();
+    }
 #endif
 
     // Set default mipmap level (NB some APIs ignore this)
@@ -477,12 +487,13 @@ bool GBaseClass::keyPressed( const OIS::KeyEvent &arg )
     //CEGUI::GUIContext::injectKeyDown(arg.key);
     //CEGUI::GUIContext::injectChar(arg.key);
 
-    if (arg.key == OIS::KC_ESCAPE)
+    bool result = GAHandlers[currentHandler]->keyPressed(arg);
+    if (result && arg.key == OIS::KC_ESCAPE)
     {
         mShutDown = true;
     }
 
-    return GAHandlers[currentHandler]->keyPressed(arg);
+    return result;
 }
 
 bool GBaseClass::keyReleased( const OIS::KeyEvent &arg )
@@ -574,6 +585,7 @@ void GBaseClass::go()
 
 	//Ogre::LogManager::getSingleton().logMessage(Ogre::StringConverter::toString(mRoot->getDefaultMinPixelSize()), Ogre::LML_NORMAL);
 
+    mWindow->removeAllViewports();
     mRoot->startRendering();
 
     // clean up
@@ -682,4 +694,42 @@ void GBaseClass::LoadEvent::beforeLoad()
 void GBaseClass::LoadEvent::afterLoad()
 {
     cout << "afterLoad" << endl;
+}
+
+void GBaseClass::nextGAHandler()
+{
+	if (currentHandler < (int)(GAHandlers.size() -1))
+	{
+		currentHandler++;
+		swapSceneMgr(currentHandler);
+	}
+}
+
+void GBaseClass::priorGAHandler()
+{
+	if (currentHandler > 0)
+	{
+		currentHandler--;
+		swapSceneMgr(currentHandler);
+	}
+}
+
+void GBaseClass::swapSceneMgr(unsigned short index)
+{
+	if (index >= 0 && index < GAHandlers.size())
+	{
+		GAHandlers[currentHandler]->onHide();
+		Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::swapSceneMgr1  --- ***", Ogre::LML_NORMAL);
+		currentHandler = index;
+		mWindow->removeAllViewports();
+
+		Ogre::Camera *cam = GAHandlers[currentHandler]->getCameraSet()->mCamera;
+		Ogre::Viewport *vp = mWindow->addViewport(cam);//GAHandlers[currentHandler]->getCameraSet()->mViewport;
+
+		vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+		cam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+		GAHandlers[currentHandler]->onShow();
+		Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::swapSceneMgr2 end.  --- ***", Ogre::LML_NORMAL);
+
+	}
 }

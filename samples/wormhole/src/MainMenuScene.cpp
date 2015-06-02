@@ -21,6 +21,7 @@ using namespace std;
 
 MainMenuScene::MainMenuScene(GBaseClass *base) : GAbstractHandler(base, true)
 {
+	cameraSet1 = new Camera_Set();
     //ctor
 }
 
@@ -44,12 +45,17 @@ void MainMenuScene::setup(void)
     mCameraMan = new OgreBites::SdkCameraMan(mCamera);
 
     // Create one viewport, entire window
-    Ogre::Viewport* vp = this->game->mWindow->addViewport(mCamera);
-    vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+    mViewport = this->game->mWindow->addViewport(mCamera,2);
+    mViewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
 
     // Alter the camera aspect ratio to match the viewport
-    mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+    mCamera->setAspectRatio(Ogre::Real(mViewport->getActualWidth()) / Ogre::Real(mViewport->getActualHeight()));
 
+    cameraSet1->mCamera = mCamera;
+    cameraSet1->mCameraMan = mCameraMan;
+    //cameraSet1->mViewport = mViewport;
+
+    this->addCameraSet(cameraSet1);
     // Start Bullet
     Ogre::AxisAlignedBox box = Ogre::AxisAlignedBox(Ogre::Vector3(-10000.0f, -10000.0f, -10000.0f),	Ogre::Vector3(10000.0f, 10000.0f, 10000.0f));
 
@@ -382,15 +388,12 @@ bool MainMenuScene::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonI
 
 bool MainMenuScene::keyReleased( const OIS::KeyEvent &arg )
 {
-    GAbstractHandler::keyReleased(arg);
 
 }
 
 int num=1;
 bool MainMenuScene::keyPressed( const OIS::KeyEvent &arg )
 {
-    GAbstractHandler::keyPressed(arg);
-
     if (arg.key == OIS::KC_B)
     {
         //sphere to test bullet
@@ -419,7 +422,7 @@ bool MainMenuScene::keyPressed( const OIS::KeyEvent &arg )
         //ADR!
         defaultBody->getBulletRigidBody()->setFlags(defaultBody->getBulletRigidBody()->getFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
     }
-    if (arg.key == OIS::KC_N)
+    if (arg.key == OIS::KC_V)
     {
     /** colidir com a camera */
 

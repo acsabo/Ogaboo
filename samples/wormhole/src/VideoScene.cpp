@@ -4,6 +4,7 @@ using namespace Ogaboo;
 
 VideoScene::VideoScene(GBaseClass *base) : GAbstractHandler(base, true)
 {
+	cameraSet1 = new Camera_Set();
     //ctor
 }
 
@@ -14,6 +15,8 @@ VideoScene::~VideoScene()
 
 void VideoScene::setup(void)
 {
+	Ogre::LogManager::getSingleton().logMessage("*** --- VideoScene::setup  --- ***", Ogre::LML_NORMAL);
+
     // Get the SceneManager, in this case a generic one
     mSceneMgr = this->game->mRoot->createSceneManager(Ogre::ST_GENERIC);
 
@@ -27,13 +30,25 @@ void VideoScene::setup(void)
     mCamera->setNearClipDistance(5);
     mCameraMan = new OgreBites::SdkCameraMan(mCamera);
 
+    cameraSet1->mCamera = mCamera;
+    cameraSet1->mCameraMan = mCameraMan;
+//    cameraSet1->mViewport = mViewport;
+
+    this->addCameraSet(cameraSet1);
+	Ogre::LogManager::getSingleton().logMessage("*** --- VideoScene::setup 1 --- ***", Ogre::LML_NORMAL);
+
     // Create one viewport, entire window
-    Ogre::Viewport* vp = this->game->mWindow->addViewport(mCamera);
-    vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
+    mViewport = this->game->mWindow->addViewport(mCamera, 1);
+	Ogre::LogManager::getSingleton().logMessage("*** --- VideoScene::setup 2 --- ***", Ogre::LML_NORMAL);
+
+    mViewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
+	Ogre::LogManager::getSingleton().logMessage("*** --- VideoScene::setup 3 --- ***", Ogre::LML_NORMAL);
 
     // Alter the camera aspect ratio to match the viewport
-    mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
-}
+    mCamera->setAspectRatio(Ogre::Real(mViewport->getActualWidth()) / Ogre::Real(mViewport->getActualHeight()));
+
+    Ogre::LogManager::getSingleton().logMessage("*** --- VideoScene::setup end --- ***", Ogre::LML_NORMAL);
+ }
 
 void VideoScene::createScene(void)
 {

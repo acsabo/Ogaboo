@@ -23,6 +23,12 @@ class MainMenuScene : public GAbstractHandler
         //virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
     private:
+
+        Ogre::Camera* mCamera;
+        OgreBites::SdkCameraMan* mCameraMan;
+        Ogre::Viewport* mViewport;
+        CameraSet* cameraSet1;
+
         Ogre::SceneNode *mCurrentObject;	//pointer to our currently selected object
         //Ogre::RaySceneQuery* mRayScnQuery;	//pointer to our ray scene query
 
@@ -43,6 +49,8 @@ class MainMenuScene : public GAbstractHandler
         bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
         void addToWorld(Ogre::Terrain *terrain);
+
+
 };
 
 #endif // MAINMENUSCENE_H

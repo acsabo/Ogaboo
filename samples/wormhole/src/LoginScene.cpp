@@ -24,9 +24,7 @@ void LoginScene::setup(void)
     mCamera->lookAt(Ogre::Vector3(0,0,0));
     mCamera->setNearClipDistance(5);
 
-    mCameraMan = new OgreBites::SdkCameraMan(mCamera);
-
-
+   mCameraMan = new OgreBites::SdkCameraMan(mCamera);
 }
 
 bool okAction(const CEGUI::EventArgs &e)

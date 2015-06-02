@@ -16,6 +16,10 @@ class MainScene : public GAbstractHandler
 
     protected:
     private:
+        Ogre::Camera* mCamera;
+        OgreBites::SdkCameraMan* mCameraMan;
+        Ogre::Viewport* mViewport;
+        CameraSet* cameraSet1;
 };
 
 #endif // MAINSCENE_H

@@ -11,10 +11,9 @@ Immerse::~Immerse()
     //dtor
 }
 
-OgreBites::SdkCameraMan* mCameraMan2;
-
 Ogre::Entity* entGround;
 Ogre::SceneNode* nodeCursor;
+Ogaboo::CameraSet mCameraSet1;
 
 void Immerse::setup(void)
 {
@@ -31,7 +30,7 @@ void Immerse::setup(void)
     mCamera->setNearClipDistance(1);
 
     // Create the camera 2
-    Ogre::Camera* mCamera2 = mSceneMgr->createCamera("PlayerCam2");
+    mCamera2 = mSceneMgr->createCamera("PlayerCam2");
     // Position it at 500 in Z direction
     mCamera2->setPosition(Ogre::Vector3(2,15,15));
 
@@ -40,6 +39,7 @@ void Immerse::setup(void)
     mCamera2->setNearClipDistance(1);
 
     mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+  //  this->addCameraSet(&mCameraSet1);
 
     mCameraMan2 = new OgreBites::SdkCameraMan(mCamera2);
 

@@ -22,6 +22,10 @@ class Immerse : public GAbstractHandler
         bool keyReleased( const OIS::KeyEvent &arg );
     protected:
     private:
+        Ogre::Camera* mCamera;
+        Ogre::Camera* mCamera2;
+        OgreBites::SdkCameraMan* mCameraMan;
+        OgreBites::SdkCameraMan* mCameraMan2;
 };
 
 #endif // IMMERSE_H

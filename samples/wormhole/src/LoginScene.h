@@ -17,6 +17,8 @@ class LoginScene : public GAbstractHandler
 
     protected:
     private:
+        Ogre::Camera* mCamera;
+        OgreBites::SdkCameraMan* mCameraMan;
         unsigned int audioId;
 };
 

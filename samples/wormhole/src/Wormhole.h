@@ -24,7 +24,8 @@ class Wormhole : public GBaseClass
         LoginScene* loginScene;
         MainScene* mainScene;
         Immerse* immerse;
-
+        bool keyPressed( const OIS::KeyEvent &arg );
+        bool keyReleased( const OIS::KeyEvent &arg );
 };
 
 #endif // WORMHOLE_H

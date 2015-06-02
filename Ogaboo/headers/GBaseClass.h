@@ -117,9 +117,9 @@ namespace Ogaboo {
 #endif
 
 
-            Ogre::ParticleFXPlugin *g_pfxPlugin = 0;
+            Ogre::ParticleFXPlugin *g_pfxPlugin;
 
-            OgreOggSound::OgreOggSoundPlugin * g_oosPlugin = 0;
+            OgreOggSound::OgreOggSoundPlugin * g_oosPlugin;
 /*
             //bullet api
             btBroadphaseInterface* broadphase;
@@ -128,8 +128,11 @@ namespace Ogaboo {
             btSequentialImpulseConstraintSolver* solver;
             btDiscreteDynamicsWorld* dynamicsWorld;
 */
+            void nextGAHandler();
+            void priorGAHandler();
 
         protected:
+            void swapSceneMgr(unsigned short index);
 			void setupDefaultConfigIfNeeded();
 
             virtual void createFrameListener(void);
@@ -161,23 +164,22 @@ namespace Ogaboo {
             virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
             virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 			#endif
-
-            // Ogre::WindowEventListener
             //Adjust mouse clipping area
             virtual void windowResized(Ogre::RenderWindow* rw);
             //Unattach OIS before window shutdown (very important under Linux)
             virtual void windowClosed(Ogre::RenderWindow* rw);
-            virtual void update() {}
 
         private:
             Ogre::String mResourcesCfg;
             Ogre::String mPluginsCfg;
             virtual bool init();
 
-            bool mCursorWasVisible;                    // was cursor visible before dialog appeared
+            // was cursor visible before dialog appeared
+            bool mCursorWasVisible;
             bool mShutDown;
 
-        	Ogre::FileSystemLayer* mFSLayer; // File system abstraction layer
+            // File system abstraction layer
+        	Ogre::FileSystemLayer* mFSLayer;
 
             //OIS Input devices
             OIS::InputManager* mInputManager;
@@ -186,7 +188,8 @@ namespace Ogaboo {
 
 			#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
             OIS::MultiTouch* mMouse;
-        	AAssetManager* mAssetMgr;       // Android asset manager to access files inside apk
+            // Android asset manager to access files inside apk
+        	AAssetManager* mAssetMgr;
 			#else
 			OIS::Mouse*    mMouse;
 			#endif

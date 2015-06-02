@@ -16,13 +16,16 @@ using namespace std;
 
 using namespace Ogaboo;
 
-static bool isMouseDragging = false;
+//static bool isMouseDragging = false;
 
 GAbstractHandler::GAbstractHandler(Ogaboo::GBaseClass *base, bool autoCreateScene)
 {
+	mOverlaySystem = NULL;
+	mWorld = NULL;
+	mRayScnQuery = NULL;
+	mSceneMgr = NULL;
+	this->autoCreateScene = autoCreateScene;
     this->alive = true;
-    this->setAutoCreateScene(autoCreateScene);
-
     this->game = base;
     this->game->addHandler(this);
 }
@@ -59,13 +62,13 @@ bool GAbstractHandler::draw(const Ogre::FrameEvent& evt)
 
 bool GAbstractHandler::keyPressed( const OIS::KeyEvent &arg )
 {
-    mCameraMan->injectKeyDown(arg);
+    this->getCameraSet()->mCameraMan->injectKeyDown(arg);
     return true;
 }
 
 bool GAbstractHandler::keyReleased( const OIS::KeyEvent &arg )
 {
-    mCameraMan->injectKeyUp(arg);
+	this->getCameraSet()->mCameraMan->injectKeyUp(arg);
     return true;
 }
 
@@ -101,29 +104,39 @@ bool GAbstractHandler::touchCancelled( const OIS::MultiTouchEvent &arg )
 }
 #else
 
-bool GAbstractHandler::mouseMoved(const OIS::MouseEvent &arg)
+//bool GAbstractHandler::mouseMoved(const OIS::MouseEvent &arg)
+//{
+//    if (isMouseDragging)
+//    	mCameraMan->injectMouseMove(arg);
+//    return true;
+//}
+//
+//bool GAbstractHandler::mousePressed(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
+//{
+//    mCameraMan->injectMouseDown(arg, id);
+//
+//    if (id  == OIS::MB_Right)
+//    {
+//        isMouseDragging = true;
+//    }
+//    return true;
+//}
+//
+//bool GAbstractHandler::mouseReleased(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
+//{
+//	mCameraMan->injectMouseUp(arg, id);
+//    isMouseDragging = false;
+//    return true;
+//}
+
+CameraSet* GAbstractHandler::getCameraSet (int index)
 {
-    if (isMouseDragging)
-    	mCameraMan->injectMouseMove(arg);
-    return true;
+	return mCameraSet[index];
 }
 
-bool GAbstractHandler::mousePressed(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
+void GAbstractHandler::addCameraSet (CameraSet* cameraSet)
 {
-    mCameraMan->injectMouseDown(arg, id);
-
-    if (id  == OIS::MB_Right)
-    {
-        isMouseDragging = true;
-    }
-    return true;
-}
-
-bool GAbstractHandler::mouseReleased(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
-{
-	mCameraMan->injectMouseUp(arg, id);
-    isMouseDragging = false;
-    return true;
+	this->mCameraSet.push_back(cameraSet);
 }
 
 #endif
