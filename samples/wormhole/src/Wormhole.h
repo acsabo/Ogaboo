@@ -1,17 +1,17 @@
 #ifndef WORMHOLE_H
 #define WORMHOLE_H
 
-#include <GBaseClass.h>
-#include <GAbstractHandler.h>
+#include <Game.h>
 #include "VideoScene.h"
-#include "LoginScene.h"
+
 #include "MainScene.h"
 #include "MainMenuScene.h"
 #include "Immerse.h"
+#include "MainMenu.h"
 
 using namespace Ogaboo;
 
-class Wormhole : public GBaseClass
+class Wormhole : public Game
 {
     public:
         Wormhole();
@@ -21,7 +21,8 @@ class Wormhole : public GBaseClass
     private:
         VideoScene* videoScene;
         MainMenuScene* mainMenuScene;
-        LoginScene* loginScene;
+        MainMenu* mainMenu;
+
         MainScene* mainScene;
         Immerse* immerse;
         bool keyPressed( const OIS::KeyEvent &arg );

@@ -12,10 +12,6 @@
 #define GABSTRACTHANDLER_H
 #include <vector>
 
-#include <OIS/OISEvents.h>
-#include <OIS/OISInputManager.h>
-#include <OIS/OISKeyboard.h>
-
 #include <OGRE/OgreCamera.h>
 #include <OGRE/OgreSceneManager.h>
 #include <OGRE/InputContext.h>
@@ -36,20 +32,18 @@
 //Ogre Bullet
 #include <OgreBullet/Collisions/OgreBulletCollisions.h>
 #include <OgreBullet/Dynamics/OgreBulletDynamics.h>
-
 #include <OgreBullet/Dynamics/OgreBulletDynamicsWorld.h>
 #include <OgreBullet/Dynamics/OgreBulletDynamicsRigidBody.h>
-//#include "Debug/OgreBulletCollisionsDebugDrawer.h"
-
-#include "GBaseClass.h"
 
 namespace Ogaboo {
+
+//forward reference due to dependency
+class GBaseClass;
 
 typedef struct Camera_Set
 {
 	Ogre::Camera* mCamera;
-	OgreBites::SdkCameraMan* mCameraMan;
-	//Ogre::Viewport* mViewport;
+//	OgreBites::SdkCameraMan* mCameraMan;
 } CameraSet;
 
 /** This class demonstrates basic usage of the RTShader system.
@@ -147,6 +141,7 @@ protected:
 	Ogre::RTShader::ShaderGenerator*	mShaderGenerator;			// The shader generator instance.
 };
 
+
     class GAbstractHandler  : public OIS::KeyListener,
 							  #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
 							  public OIS::MultiTouchListener
@@ -155,14 +150,13 @@ protected:
 							  #endif
     {
         public:
-            GAbstractHandler(class GBaseClass *, bool autoCreateScene);
+            GAbstractHandler(std::string name);
             virtual ~GAbstractHandler();
-            virtual void setup(void) = 0; // Override me!
-            virtual void createScene(void) = 0; // Override me!
-            virtual bool draw(const Ogre::FrameEvent& evt) = 0; // Override me!
+            std::string mName;
 
-            virtual void onShow(void){};
-            virtual void onHide(void){};
+            virtual void setup(const Ogaboo::GBaseClass* base) = 0; // Override me!
+            virtual void load(const Ogaboo::GBaseClass* base) = 0; // Override me!
+            virtual bool draw(const Ogre::FrameEvent& evt) = 0; // Override me!
 
             // OIS::KeyListener
             bool keyPressed( const OIS::KeyEvent &arg );
@@ -176,34 +170,29 @@ protected:
 			bool touchCancelled( const OIS::MultiTouchEvent &arg ){return true;};
 			#else
             // OIS::MouseListener
-	        bool mouseMoved(const OIS::MouseEvent &arg){return true;};
-	        bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id){return true;};
-	        bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id){return true;};
+			bool mouseMoved(const OIS::MouseEvent &arg);
+			bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+			bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 	        #endif
-
-            void setAutoCreateScene (bool autoCreateScene);
-            bool getAutoCreateScene (void);
 
             CameraSet* getCameraSet (int index = 0);
             void kill (void);
             bool isAlive (void);
+            Ogre::SceneManager* mSceneMgr;
+
         protected:
 
-            //Ogre::Camera* mCamera;
-            //OgreBites::SdkCameraMan* mCameraMan;
-            Ogre::SceneManager* mSceneMgr;
-        	//Fix for 1.9
+            //Fix for 1.9
         	Ogre::OverlaySystem *mOverlaySystem;
         	//pointer to our ray scene query
             Ogre::RaySceneQuery* mRayScnQuery;
             //ogre bullet World
             OgreBulletDynamics::DynamicsWorld* mWorld;
 
-            Ogaboo::GBaseClass* game;
         	std::vector <CameraSet*> mCameraSet;
             void addCameraSet (CameraSet* cameraSet);
+
         private:
-            bool autoCreateScene;
             bool alive;
     };
 };

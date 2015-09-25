@@ -10,11 +10,10 @@
 class MainMenuScene : public GAbstractHandler
 {
     public:
-        MainMenuScene(GBaseClass *base);
+        MainMenuScene();
         virtual ~MainMenuScene();
 
-        void setup(void);
-        void createScene(void);
+        void setup(const Ogaboo::GBaseClass &base);
         bool draw(const Ogre::FrameEvent& evt);
     protected:
 

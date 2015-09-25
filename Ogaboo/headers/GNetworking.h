@@ -137,7 +137,7 @@ public:
 		this->send(appz+":"+usr+":login:"+pwd+":password:\0");
 
 		boost::thread mythread(&GNetworking::runService, this);
-		mythread.start_thread();
+//		mythread.start_thread();
 	}
 
 	void quit()

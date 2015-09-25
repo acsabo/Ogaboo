@@ -19,8 +19,6 @@ using namespace std;
 
 using namespace Ogaboo;
 
-int currentHandler = 0;
-
 GBaseClass::GBaseClass()
     : mRoot(0),
       mWindow(0),
@@ -32,14 +30,10 @@ GBaseClass::GBaseClass()
       mMouse(0),
       mKeyboard(0)
 {
-/*
-    //Init bullet world
-    broadphase = new btDbvtBroadphase();
-    collisionConfiguration = new btDefaultCollisionConfiguration();
-    dispatcher = new btCollisionDispatcher(collisionConfiguration);
-    solver = new btSequentialImpulseConstraintSolver;
-    dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher,broadphase,solver,collisionConfiguration);
-*/
+	cout << "GBaseClass::GBaseClass()" << endl;
+	//prepare
+	mPlatform = new MyGUI::OgrePlatform();
+	mGUI = new MyGUI::Gui();
 }
 
 GBaseClass::~GBaseClass()
@@ -48,13 +42,36 @@ GBaseClass::~GBaseClass()
     Ogre::WindowEventUtilities::removeWindowEventListener(mWindow, this);
     windowClosed(mWindow);
     delete mRoot;
+    delete mSceneMgr;
+    delete mDotScene;
+    delete mWindow;
     delete videoClipManager;
     delete mSoundManager;
+
+    //dtor
+	delete mPlatform;
+	delete mGUI;
+
 }
 
-void GBaseClass::addHandler(Ogaboo::GAbstractHandler *handler)
+void GBaseClass::addHandler(std::string name, Ogaboo::GAbstractHandler *handler)
 {
-    this->GAHandlers.push_back(handler);
+	handler->mName = name;
+	mHandlers[name]=handler;
+
+	//set current
+	mCurrentHandler = handler;
+}
+
+bool GBaseClass::setCurrentHandler(std::string name)
+{
+	Ogaboo::GAbstractHandler *pHandler  = mHandlers[name];
+	if (pHandler)
+	{
+		mCurrentHandler = pHandler;
+		return true;
+	}
+	return false;
 }
 
 //-------------------------------------------------------------------------------------
@@ -108,30 +125,21 @@ void GBaseClass::createScene(void)
 	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene  --- ***", Ogre::LML_NORMAL);
 	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 1 ***");
 
+    mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC);
+
+	//Fix for 1.9
+//	mOverlaySystem = new Ogre::OverlaySystem();
+//	mSceneMgr->addRenderQueueListener(mOverlaySystem);
+
+    mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
+
 	mDotScene = new CDotScene();
 
-	#if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
-		//INICIA O CEGUI para todas as Scenes
-		mRenderer = &CEGUI::OgreRenderer::bootstrapSystem(); //create(*mWindow);
-	#endif
-
-	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 2 ***");
-
-    // set the default resource groups to be used
-//    CEGUI::ImageManager::setImagesetDefaultResourceGroup("imagesets");
-//    CEGUI::Font::setDefaultResourceGroup("fonts");
-//    CEGUI::Scheme::setDefaultResourceGroup("schemes");
-//    CEGUI::WidgetLookManager::setDefaultResourceGroup("looknfeels");
-//    CEGUI::WindowManager::setDefaultResourceGroup("layouts");
-
-//	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 3+ ***");
-//
-//    // load scheme and set up defaults
-//	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
 	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene2  --- ***", Ogre::LML_NORMAL);
 
     //Init Sound API
     mSoundManager = OgreOggSound::OgreOggSoundManager::getSingletonPtr();
+
     //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 36 ***");
     if (!mSoundManager->init())
     {
@@ -140,21 +148,26 @@ void GBaseClass::createScene(void)
     }
 	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene3  --- ***", Ogre::LML_NORMAL);
 
-    //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 37 ***");
     //Init Video API (passing the sound device)
-    videoClipManager = new VideoClipManager(mSoundManager);
+//TODO: SE PASSAR O mSoundManager aqui ele bloqueia os demais sons. ver como fazer!!
+	videoClipManager = new VideoClipManager(mSoundManager);
+
     //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene 38 ***");
 	Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::createScene4  --- ***", Ogre::LML_NORMAL);
 
-	for (unsigned int i = 0; i < GAHandlers.size(); i++)
+	//???
+	mPlatform->initialise(mWindow, mSceneMgr);
+	mGUI->initialise();
+
+	if (mCurrentHandler)
 	{
-		if (GAHandlers[i]->getAutoCreateScene())
-		{
-			GAHandlers[i]->createScene();
-		}
+		mCurrentHandler->setup(this);
+		swapScene();
+		mCurrentHandler->load(this);
 	}
+
     //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::createScene end ***");
-	Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::createScene  --- ***", Ogre::LML_NORMAL);
+	Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::createScene  end--- ***", Ogre::LML_NORMAL);
 }
 
 
@@ -289,8 +302,8 @@ void GBaseClass::setupResources(void)
 {
 	//__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::setupResources ***");
    //Adr
-   for (unsigned int i = 0; i < loadEvents.size(); i++)
-        loadEvents[i]->beforeLoad();
+   for (unsigned int i = 0; i < mLoadEvents.size(); i++)
+        mLoadEvents[i]->beforeLoad();
 
    //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::setupResources 2 ***");
 
@@ -321,8 +334,8 @@ void GBaseClass::setupResources(void)
 #endif
 
     //Adr
-    for (unsigned int i = 0; i < loadEvents.size(); i++)
-        loadEvents[i]->afterLoad();
+    for (unsigned int i = 0; i < mLoadEvents.size(); i++)
+        mLoadEvents[i]->afterLoad();
 
     //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::setupResources end ***");
 }
@@ -337,8 +350,8 @@ void GBaseClass::loadResources(void)
     Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 }
 //-------------------------------------------------------------------------------------
-/*
-void GBaseClass::setupDefaultConfigIfNeeded()
+
+bool GBaseClass::setupDefaultConfigIfNeeded()
 {
     // Check if the config exists
     bool success = mRoot->restoreConfig();
@@ -387,11 +400,12 @@ void GBaseClass::setupDefaultConfigIfNeeded()
                     }
                 }
             }
+            return true;
         }
     }
-    //__android_log_print(ANDROID_LOG_INFO, "DEBUGGING", "+++ setupDefaultConfigIfNeeded end ");
+    return success;
 }
-*/
+
 //-------------------------------------------------------------------------------------
 bool GBaseClass::init(void)
 {
@@ -404,19 +418,16 @@ bool GBaseClass::init(void)
 #if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
     bool carryOn = configure();
     if (!carryOn) return false;
-    //create manager/camera and viewport for each registered handler
-    for (unsigned int i = 0; i < GAHandlers.size(); i++)
-    {
-    	 mWindow->removeAllViewports();
-         GAHandlers[i]->setup();
-    }
+    Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::init --- ***", Ogre::LML_NORMAL);
 #endif
+    Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::init2 --- ***", Ogre::LML_NORMAL);
 
     // Set default mipmap level (NB some APIs ignore this)
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 
     // Create any resource listeners (for loading screens)
     createResourceListener();
+    Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::init3 --- ***", Ogre::LML_NORMAL);
 
     // Load resources
     loadResources();
@@ -440,22 +451,19 @@ bool GBaseClass::frameRenderingQueued(const Ogre::FrameEvent& evt)
  //   mMouse->capture();
     mInputContext.capture();
     //Need to inject timestamps to CEGUI System.
-    CEGUI::System::getSingleton().injectTimePulse(evt.timeSinceLastFrame);
 #endif
-    GAHandlers[currentHandler]->draw(evt);
 
-//    if (!GAHandlers[currentHandler]->isAlive())
-//    {
-//        //mWindow->getViewport(0)->clear(Ogre::FBT_COLOUR | Ogre::FBT_DEPTH, Ogre::ColourValue::Black, 1.0f, 0);
-//    	Ogre::LogManager::getSingleton().logMessage("*** ---  frameRenderingQueued!!! --- ***", Ogre::LML_NORMAL);
-//        currentHandler++;
-//        GAHandlers[currentHandler]->createScene();
-//    }
+    if (mCurrentHandler)
+    {
+    	mCurrentHandler->draw(evt);
+    }
 
-    ////__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::frameRenderingQueued end ***");
+    //__android_log_write(ANDROID_LOG_INFO, "DEBUGGING", "*** GBaseClass::frameRenderingQueued end ***");
     return true;
 }
+
 //-------------------------------------------------------------------------------------
+/*
 #if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
 CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
 {
@@ -475,40 +483,61 @@ CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID)
     }
 }
 #endif
+*/
 
 bool GBaseClass::keyPressed( const OIS::KeyEvent &arg )
 {
-#if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
-    CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(static_cast<CEGUI::Key::Scan>(static_cast<int>(arg.key)));
-    CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(arg.key);
-#endif
+	Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::keyPressed --- ***", Ogre::LML_NORMAL);
+	MyGUI::InputManager::getInstance().injectKeyPress(MyGUI::KeyCode::Enum(arg.key), arg.text);
 
-    //CEGUI::System &sys = CEGUI::System::getSingleton();
-    //CEGUI::GUIContext::injectKeyDown(arg.key);
-    //CEGUI::GUIContext::injectChar(arg.key);
-
-    bool result = GAHandlers[currentHandler]->keyPressed(arg);
-    if (result && arg.key == OIS::KC_ESCAPE)
+	bool result = true;
+    if (mCurrentHandler)
     {
-        mShutDown = true;
+		result = mCurrentHandler->keyPressed(arg);
+		if (!result && arg.key == OIS::KC_ESCAPE)
+		{
+
+			mHandlers.erase(mCurrentHandler->mName);
+			Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::keyPressed " + mCurrentHandler->mName, Ogre::LML_NORMAL);
+
+			if (mHandlers.empty())
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::keyPressed shutdown --- ***", Ogre::LML_NORMAL);
+				mShutDown = true;
+			} else
+			{
+				Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::keyPressed " + mCurrentHandler->mName, Ogre::LML_NORMAL);
+				tr1::unordered_map<std::string, GAbstractHandler*>::iterator it = mHandlers.begin();
+				mCurrentHandler = it->second;
+
+				mCurrentHandler->setup(this);
+				swapScene();
+				mCurrentHandler->load(this);
+
+			}
+		}
+    } else
+    {
+    	if (mHandlers.empty())
+    	{
+			Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::keyPressed shutdown --- ***", Ogre::LML_NORMAL);
+    		mShutDown = true;
+    	}
     }
 
+    Ogre::LogManager::getSingleton().logMessage("*** ---  GBaseClass::keyPressed end --- ***", Ogre::LML_NORMAL);
     return result;
 }
 
 bool GBaseClass::keyReleased( const OIS::KeyEvent &arg )
 {
-#if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
-    CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(static_cast<CEGUI::Key::Scan>(static_cast<int>(arg.key)));
-    CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(arg.key);
-#endif
+	MyGUI::InputManager::getInstance().injectKeyRelease(MyGUI::KeyCode::Enum(arg.key));
 
-    //CEGUI::System &sys = CEGUI::System::getSingleton();
-    //sys.injectKeyDown(arg.key);
-    //sys.injectChar(arg.text);
-
-    //return currentManager.keyReleased
-    return GAHandlers[currentHandler]->keyReleased(arg);
+    if (mCurrentHandler)
+    {
+    	return mCurrentHandler->keyReleased(arg);
+    }
+    return true;
 }
 
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
@@ -585,8 +614,9 @@ void GBaseClass::go()
 
 	//Ogre::LogManager::getSingleton().logMessage(Ogre::StringConverter::toString(mRoot->getDefaultMinPixelSize()), Ogre::LML_NORMAL);
 
-    mWindow->removeAllViewports();
+    Ogre::LogManager::getSingleton().logMessage("*** ---  go1() --- ***", Ogre::LML_NORMAL);
     mRoot->startRendering();
+    Ogre::LogManager::getSingleton().logMessage("*** ---  go2() --- ***", Ogre::LML_NORMAL);
 
     // clean up
     destroyScene();
@@ -594,36 +624,39 @@ void GBaseClass::go()
 
 bool GBaseClass::mouseMoved( const OIS::MouseEvent &arg )
 {
-    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+	MyGUI::InputManager::getInstance().injectMouseMove(arg.state.X.abs, arg.state.Y.abs, arg.state.Z.abs);
 
-    //CEGUI::System &sys = CEGUI::System::getSingleton();
-    //sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
     // Scroll wheel.
     if (arg.state.Z.rel)
     {
         //sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
-        CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseWheelChange(arg.state.Z.rel / 120.0f);
     }
-    //return currentManager.mouseMoved
-    GAHandlers[currentHandler]->mouseMoved(arg);
+    if (mCurrentHandler)
+    {
+    	mCurrentHandler->mouseMoved(arg);
+    }
     return true;
 }
 
 bool GBaseClass::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertButton(id));
+	MyGUI::InputManager::getInstance().injectMousePress(arg.state.X.abs, arg.state.Y.abs, MyGUI::MouseButton::Enum(id));
 
-    //return currentManager.mousePressed
-    GAHandlers[currentHandler]->mousePressed(arg, id);
+    if (mCurrentHandler)
+    {
+    	mCurrentHandler->mousePressed(arg, id);
+    }
     return true;
 }
 
 bool GBaseClass::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 {
-    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(convertButton(id));
+	MyGUI::InputManager::getInstance().injectMouseRelease(arg.state.X.abs, arg.state.Y.abs, MyGUI::MouseButton::Enum(id));
 
-    //return currentManager.mouseReleased
-    GAHandlers[currentHandler]->mouseReleased(arg, id);
+    if (mCurrentHandler)
+    {
+    	mCurrentHandler->mouseReleased(arg, id);
+    }
     return true;
 }
 
@@ -632,12 +665,15 @@ bool GBaseClass::configure(void)
     // Show the configuration dialog and initialise the system
     // You can skip this and use root.restoreConfig() to load configuration
     // settings if you were sure there are valid ones saved in ogre.cfg
+
     if(mRoot->showConfigDialog())
-//   	if(manualInitialize("OpenGL"))
+//	if (setupDefaultConfigIfNeeded())
     {
+    	Ogre::LogManager::getSingleton().logMessage("*** ---  showConfigDialog --- ***", Ogre::LML_NORMAL);
+
         // If returned true, user clicked OK so initialise
         // Here we choose to let the system create a default rendering window by passing 'true'
-        mWindow = mRoot->initialise(true, "TutorialApplication Render Window");
+        mWindow = mRoot->initialise(true);//, "Render Window");
     	Ogre::LogManager::getSingleton().logMessage("*** ---  mRoot->initialise --- ***", Ogre::LML_NORMAL);
         return true;
     }
@@ -683,7 +719,7 @@ void GBaseClass::windowClosed(Ogre::RenderWindow* rw)
 
 //--- adr
 void GBaseClass::addLoadEvent(LoadEvent*evt) {
-    loadEvents.push_back(evt);
+    mLoadEvents.push_back(evt);
 }
 
 void GBaseClass::LoadEvent::beforeLoad()
@@ -696,40 +732,29 @@ void GBaseClass::LoadEvent::afterLoad()
     cout << "afterLoad" << endl;
 }
 
-void GBaseClass::nextGAHandler()
+void GBaseClass::swapScene()
 {
-	if (currentHandler < (int)(GAHandlers.size() -1))
+	if (mCurrentHandler)
 	{
-		currentHandler++;
-		swapSceneMgr(currentHandler);
-	}
-}
+		mGUI->shutdown();
+		mPlatform->shutdown();
 
-void GBaseClass::priorGAHandler()
-{
-	if (currentHandler > 0)
-	{
-		currentHandler--;
-		swapSceneMgr(currentHandler);
-	}
-}
+		Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::swapSceneMgr1  --- ***" + mCurrentHandler->mName , Ogre::LML_NORMAL);
 
-void GBaseClass::swapSceneMgr(unsigned short index)
-{
-	if (index >= 0 && index < GAHandlers.size())
-	{
-		GAHandlers[currentHandler]->onHide();
-		Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::swapSceneMgr1  --- ***", Ogre::LML_NORMAL);
-		currentHandler = index;
 		mWindow->removeAllViewports();
+		Ogre::Camera *camera = mCurrentHandler->getCameraSet()->mCamera;
+		Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::swapSceneMgr11 end.  --- ***", Ogre::LML_NORMAL);
 
-		Ogre::Camera *cam = GAHandlers[currentHandler]->getCameraSet()->mCamera;
-		Ogre::Viewport *vp = mWindow->addViewport(cam);//GAHandlers[currentHandler]->getCameraSet()->mViewport;
+	    //Create one viewport, entire window
+		Ogre::Viewport* viewport = mWindow->addViewport(camera);
+		viewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
+		viewport->setDimensions(0,0,1,1);
+	    camera->setAspectRatio(Ogre::Real(viewport->getActualWidth()) / Ogre::Real(viewport->getActualHeight()));
 
-		vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
-		cam->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
-		GAHandlers[currentHandler]->onShow();
+	    mSceneMgr = mCurrentHandler->mSceneMgr;
+
+		mPlatform->initialise(mWindow, mSceneMgr);
+		mGUI->initialise();
 		Ogre::LogManager::getSingleton().logMessage("*** --- GBaseClass::swapSceneMgr2 end.  --- ***", Ogre::LML_NORMAL);
-
 	}
 }

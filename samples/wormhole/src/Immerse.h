@@ -7,11 +7,10 @@
 class Immerse : public GAbstractHandler
 {
     public:
-		Immerse(GBaseClass *base);
+		Immerse();
         virtual ~Immerse();
 
-        void setup(void);
-        void createScene(void);
+        void setup(const Ogaboo::GBaseClass &base);
         bool draw(const Ogre::FrameEvent& evt);
 
         bool mouseMoved(const OIS::MouseEvent &arg);

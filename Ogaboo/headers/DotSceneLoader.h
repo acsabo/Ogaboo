@@ -40,7 +40,10 @@ public:
     Ogre::String getProperty(Ogre::String ndNm, Ogre::String prop);
 
     std::vector<nodeProperty> nodeProperties;
-
+    Ogre::SceneManager *getScemeManager()
+    {
+    	return mSceneMgr;
+    }
 protected:
     void processNode(TiXmlElement *XMLNode, Ogre::SceneNode *pAttach);
     Ogre::SceneManager *mSceneMgr;

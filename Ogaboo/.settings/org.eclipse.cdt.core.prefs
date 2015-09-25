@@ -12,6 +12,11 @@ environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.356592072/MINGW/
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.356592072/MINGW/value=C\:\\MinGW
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.356592072/append=true
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.debug.356592072/appendContributed=true
+environment/project/cdt.managedbuild.config.gnu.mingw.exe.release.700525569.328144292.1044836436/MSYS_HOME/delimiter=;
+environment/project/cdt.managedbuild.config.gnu.mingw.exe.release.700525569.328144292.1044836436/MSYS_HOME/operation=replace
+environment/project/cdt.managedbuild.config.gnu.mingw.exe.release.700525569.328144292.1044836436/MSYS_HOME/value=C\:\\msys64
+environment/project/cdt.managedbuild.config.gnu.mingw.exe.release.700525569.328144292.1044836436/append=true
+environment/project/cdt.managedbuild.config.gnu.mingw.exe.release.700525569.328144292.1044836436/appendContributed=true
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.release.700525569.328144292.254762730/append=true
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.release.700525569.328144292.254762730/appendContributed=true
 environment/project/cdt.managedbuild.config.gnu.mingw.exe.release.700525569.328144292/MINGW/delimiter=;

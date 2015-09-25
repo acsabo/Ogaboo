@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout" version="3.2.0">
+    <Widget type="Window" skin="WindowC" position="0 35 195 485" layer="Main" name="menu">
+        <Property key="Caption" value="LEDITOR"/>
+        <Widget type="ListBox" skin="ListBox" position="0 25 185 245" name="ListBox">
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position="5 5 215 15" name="Label">
+            <Property key="Caption" value="Components"/>
+        </Widget>
+        <Widget type="ImageBox" skin="ImageBox" position="10 275 165 160" name="Image"/>
+    </Widget>
+    <Widget type="MenuBar" skin="MenuBar" position="0 0 225 25" align="Left Top" layer="Main" name="TopMenu">
+        <Widget type="MenuItem" skin="" position="0 0 50 19" name="m_save">
+            <Property key="Caption" value="Save"/>
+        </Widget>
+        <Widget type="MenuItem" skin="" position="56 0 49 19" name="m_load">
+            <Property key="Caption" value="Load"/>
+        </Widget>
+        <Widget type="MenuItem" skin="" position="111 0 41 19" name="m_exit">
+            <Property key="Caption" value="Exit"/>
+        </Widget>
+        <Widget type="MenuItem" skin="" position="158 0 65 19" name="m_physics">
+            <Property key="Caption" value="Physics"/>
+        </Widget>
+    </Widget>
+    <CodeGeneratorSettings/>
+</MyGUI>

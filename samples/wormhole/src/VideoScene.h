@@ -9,11 +9,11 @@ using namespace Ogaboo;
 class VideoScene : public GAbstractHandler
 {
     public:
-        VideoScene(GBaseClass *base);
+        VideoScene();
         ~VideoScene();
 
-        void setup(void);
-        void createScene(void);
+        void setup(const Ogaboo::GBaseClass* base);
+        void load(const Ogaboo::GBaseClass* base);
         bool draw(const Ogre::FrameEvent& evt);
 
         void onShow(void){
@@ -26,6 +26,15 @@ class VideoScene : public GAbstractHandler
         };
 
     private:
+
+    	bool mouseMoved(const OIS::MouseEvent &arg);
+    	bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+    	bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+
+    	// OIS::KeyListener
+    	bool keyPressed(const OIS::KeyEvent &arg);
+    	bool keyReleased(const OIS::KeyEvent &arg);
+
         Ogre::Camera* mCamera;
         OgreBites::SdkCameraMan* mCameraMan;
         Ogre::Viewport* mViewport;

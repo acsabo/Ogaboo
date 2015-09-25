@@ -7,18 +7,14 @@
 class MainScene : public GAbstractHandler
 {
     public:
-        MainScene(GBaseClass *base);
+        MainScene();
         virtual ~MainScene();
 
-        void setup(void);
-        void createScene(void);
+        void setup(const Ogaboo::GBaseClass &base);
         bool draw(const Ogre::FrameEvent& evt);
 
     protected:
     private:
-        Ogre::Camera* mCamera;
-        OgreBites::SdkCameraMan* mCameraMan;
-        Ogre::Viewport* mViewport;
         CameraSet* cameraSet1;
 };
 

@@ -5,6 +5,8 @@ using namespace std;
 
 int main()
 {
+    cout << "Game main!" << endl;
+
     Wormhole* game = new Wormhole();
 
     cout << "Game started!" << endl;

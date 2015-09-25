@@ -19,7 +19,7 @@ using namespace std;
 
 //btRigidBody* fallRigidBody;
 
-MainMenuScene::MainMenuScene(GBaseClass *base) : GAbstractHandler(base, true)
+MainMenuScene::MainMenuScene() :GAbstractHandler("mainMenuScene")
 {
 	cameraSet1 = new Camera_Set();
     //ctor
@@ -30,38 +30,100 @@ MainMenuScene::~MainMenuScene()
     //dtor
 }
 
-void MainMenuScene::setup(void)
+void MainMenuScene::setup(const Ogaboo::GBaseClass &base)
 {
-    // Get the SceneManager, in this case a generic one
-    mSceneMgr = this->game->mRoot->createSceneManager(Ogre::ST_GENERIC);
-    mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
-
-    mCamera = mSceneMgr->createCamera("PlayerCam");
-    mCamera->setPosition(Ogre::Vector3(1683, 150, 2116));
-    mCamera->lookAt(Ogre::Vector3(1963, 50, 1660));
-    mCamera->setNearClipDistance(0.1);
-    mCamera->setFarClipDistance(50000);
-
-    mCameraMan = new OgreBites::SdkCameraMan(mCamera);
-
-    // Create one viewport, entire window
-    mViewport = this->game->mWindow->addViewport(mCamera,2);
-    mViewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
-
-    // Alter the camera aspect ratio to match the viewport
-    mCamera->setAspectRatio(Ogre::Real(mViewport->getActualWidth()) / Ogre::Real(mViewport->getActualHeight()));
-
-    cameraSet1->mCamera = mCamera;
-    cameraSet1->mCameraMan = mCameraMan;
-    //cameraSet1->mViewport = mViewport;
-
-    this->addCameraSet(cameraSet1);
-    // Start Bullet
-    Ogre::AxisAlignedBox box = Ogre::AxisAlignedBox(Ogre::Vector3(-10000.0f, -10000.0f, -10000.0f),	Ogre::Vector3(10000.0f, 10000.0f, 10000.0f));
-
-    //se comentar compila
-    mWorld = new OgreBulletDynamics::DynamicsWorld(mSceneMgr, box, Ogre::Vector3(0.0f, -98.1f * 2.0f, 0.0f));
-    //mWorld->setShowDebugShapes(true);
+//    // Get the SceneManager, in this case a generic one
+//    mSceneMgr = this->game->mRoot->createSceneManager(Ogre::ST_GENERIC);
+//    mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
+//
+//    mCamera = mSceneMgr->createCamera("PlayerCam");
+//    mCamera->setPosition(Ogre::Vector3(1683, 150, 2116));
+//    mCamera->lookAt(Ogre::Vector3(1963, 50, 1660));
+//    mCamera->setNearClipDistance(0.1);
+//    mCamera->setFarClipDistance(50000);
+//
+//    mCameraMan = new OgreBites::SdkCameraMan(mCamera);
+//
+//    // Create one viewport, entire window
+//    mViewport = this->game->mWindow->addViewport(mCamera,2);
+//    mViewport->setBackgroundColour(Ogre::ColourValue(0,0,0));
+//
+//    // Alter the camera aspect ratio to match the viewport
+//    mCamera->setAspectRatio(Ogre::Real(mViewport->getActualWidth()) / Ogre::Real(mViewport->getActualHeight()));
+//
+//    cameraSet1->mCamera = mCamera;
+//    cameraSet1->mCameraMan = mCameraMan;
+//    //cameraSet1->mViewport = mViewport;
+//
+//    this->addCameraSet(cameraSet1);
+//    // Start Bullet
+//    Ogre::AxisAlignedBox box = Ogre::AxisAlignedBox(Ogre::Vector3(-10000.0f, -10000.0f, -10000.0f),	Ogre::Vector3(10000.0f, 10000.0f, 10000.0f));
+//
+//    //se comentar compila
+//    mWorld = new OgreBulletDynamics::DynamicsWorld(mSceneMgr, box, Ogre::Vector3(0.0f, -98.1f * 2.0f, 0.0f));
+//    //mWorld->setShowDebugShapes(true);
+//
+////    void MainMenuScene::createScene(void)
+//
+//	Ogre::Vector3 lightdir(0.55, -0.3, 0.75);
+//	lightdir.normalise();
+//
+//	Ogre::Light* light = mSceneMgr->createLight("tstLight");
+//	light->setType(Ogre::Light::LT_DIRECTIONAL);
+//	light->setDirection(lightdir);
+//	light->setDiffuseColour(Ogre::ColourValue::White);
+//	light->setSpecularColour(Ogre::ColourValue(0.4, 0.4, 0.4));
+//
+//	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.2, 0.2, 0.2));
+//
+//	mTerrainGlobals = OGRE_NEW Ogre::TerrainGlobalOptions();
+//
+//	mTerrainGroup = OGRE_NEW Ogre::TerrainGroup(mSceneMgr, Ogre::Terrain::ALIGN_X_Z, 513, 12000.0f);
+//	mTerrainGroup->setFilenameConvention(Ogre::String("map"), Ogre::String("dat"));
+//	mTerrainGroup->setOrigin(Ogre::Vector3::ZERO);
+//
+//	configureTerrainDefaults(light);
+//
+//	for (long x = 0; x <= 0; ++x)
+//		for (long y = 0; y <= 0; ++y)
+//			defineTerrain(x, y);
+//
+//	// sync load since we want everything in place when we start
+//	mTerrainGroup->loadAllTerrains(true);
+//
+//	if (mTerrainsImported)
+//	{
+//		Ogre::TerrainGroup::TerrainIterator ti = mTerrainGroup->getTerrainIterator();
+//		while(ti.hasMoreElements())
+//		{
+//			Ogre::Terrain* t = ti.getNext()->instance;
+//			initBlendMaps(t);
+//
+//			//integra com bullet
+//			addToWorld(t);
+//		}
+//	}
+//
+//	mTerrainGroup->freeTemporaryResources();
+//	Ogre::ColourValue fadeColour(0.9, 0.9, 0.9);
+//	//   mSceneMgr->setFog(Ogre::FOG_LINEAR, fadeColour, 0.0, 10, 1200);
+//	game->mWindow->getViewport(0)->setBackgroundColour(fadeColour);
+//
+//	Ogre::Plane plane;
+//	plane.d = 100;
+//	plane.normal = Ogre::Vector3::NEGATIVE_UNIT_Y;
+//
+//	//mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8, 500);
+//	mSceneMgr->setSkyPlane(true, plane, "Examples/CloudySky", 500, 20, true, 0.5, 150, 150);
+//
+//	//but we also want to set up our raySceneQuery after everything has been initialized
+//	mRayScnQuery = mSceneMgr->createRayQuery(Ogre::Ray());
+//
+//	//ADR!
+//	gContactAddedCallback = CustomMaterialCombinerCallback;
+//
+//	//Este funciona
+//	gContactProcessedCallback = MyContactProcessedCallback;
 }
 
 //
@@ -79,75 +141,6 @@ static bool CustomMaterialCombinerCallback(btManifoldPoint& cp,	const btCollisio
     std::cout << "----------------------------- collide 2! " << endl;
     return false;
 }
-
-void MainMenuScene::createScene(void)
-{
-    Ogre::Vector3 lightdir(0.55, -0.3, 0.75);
-    lightdir.normalise();
-
-    Ogre::Light* light = mSceneMgr->createLight("tstLight");
-    light->setType(Ogre::Light::LT_DIRECTIONAL);
-    light->setDirection(lightdir);
-    light->setDiffuseColour(Ogre::ColourValue::White);
-    light->setSpecularColour(Ogre::ColourValue(0.4, 0.4, 0.4));
-
-    mSceneMgr->setAmbientLight(Ogre::ColourValue(0.2, 0.2, 0.2));
-
-    mTerrainGlobals = OGRE_NEW Ogre::TerrainGlobalOptions();
-
-    mTerrainGroup = OGRE_NEW Ogre::TerrainGroup(mSceneMgr, Ogre::Terrain::ALIGN_X_Z, 513, 12000.0f);
-    mTerrainGroup->setFilenameConvention(Ogre::String("map"), Ogre::String("dat"));
-    mTerrainGroup->setOrigin(Ogre::Vector3::ZERO);
-
-    configureTerrainDefaults(light);
-
-    for (long x = 0; x <= 0; ++x)
-        for (long y = 0; y <= 0; ++y)
-            defineTerrain(x, y);
-
-    // sync load since we want everything in place when we start
-    mTerrainGroup->loadAllTerrains(true);
-
-    if (mTerrainsImported)
-    {
-        Ogre::TerrainGroup::TerrainIterator ti = mTerrainGroup->getTerrainIterator();
-        while(ti.hasMoreElements())
-        {
-            Ogre::Terrain* t = ti.getNext()->instance;
-            initBlendMaps(t);
-
-            //integra com bullet
-            addToWorld(t);
-        }
-    }
-
-    mTerrainGroup->freeTemporaryResources();
-    Ogre::ColourValue fadeColour(0.9, 0.9, 0.9);
-    //   mSceneMgr->setFog(Ogre::FOG_LINEAR, fadeColour, 0.0, 10, 1200);
-    game->mWindow->getViewport(0)->setBackgroundColour(fadeColour);
-
-    Ogre::Plane plane;
-    plane.d = 100;
-    plane.normal = Ogre::Vector3::NEGATIVE_UNIT_Y;
-
-    //mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8, 500);
-    mSceneMgr->setSkyPlane(true, plane, "Examples/CloudySky", 500, 20, true, 0.5, 150, 150);
-
-
-	//show the CEGUI cursor
-//	CEGUI::SchemeManager::getSingleton().create((CEGUI::utf8*)"TaharezLook.scheme");
-//	CEGUI::MouseCursor::getSingleton().setImage("TaharezLook", "MouseArrow");
-
-	//but we also want to set up our raySceneQuery after everything has been initialized
-	mRayScnQuery = mSceneMgr->createRayQuery(Ogre::Ray());
-
-    //ADR!
-    gContactAddedCallback = CustomMaterialCombinerCallback;
-
-    //Este funciona
-    gContactProcessedCallback = MyContactProcessedCallback;
-}
-
 
 void MainMenuScene::addToWorld(Ogre::Terrain* t)
 {

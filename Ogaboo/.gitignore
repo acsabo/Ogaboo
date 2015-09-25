@@ -4,3 +4,5 @@
 /obj
 /Win32_Release
 /Linux_Release/
+/Win64_Release/
+/Android_Debug/

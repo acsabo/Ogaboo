@@ -8,15 +8,9 @@
 
 #include "MainScreen.h"
 
-//#include <OgreBullet/Collisions/Shapes/OgreBulletCollisionsTerrainShape.h>
-//#include <OgreBullet/Collisions/Shapes/OgreBulletCollisionsSphereShape.h>
 #include <Shapes/OgreBulletCollisionsStaticPlaneShape.h> // for static planes
-//#include <OgreBullet/Collisions/Shapes/OgreBulletCollisionsBoxShape.h>       // for Boxes
 #include <Shapes/OgreBulletCollisionsConvexHullShape.h>
 #include <Utils/OgreBulletCollisionsMeshToShapeConverter.h>
-//#include <OgreBullet/Dynamics/OgreBulletDynamicsRigidBody.h>
-
-//#include <BulletCollision/CollisionDispatch/btCollisionObject.h>
 
 using namespace std::tr1;
 using namespace std;
@@ -26,11 +20,27 @@ const int MAX_RANGE = 50;
 const int SNAP_SIZE = 2;
 
 bool drawing = false;
+bool rotatingMouseAround = false;
+
 Ogre::String currentType;
 unordered_map<std::string, Ogre::Entity*> objects;
 Ogre::Entity* entGround;
 
 int numberOfObjects = 0;
+
+
+MainScreen::MainScreen() : GAbstractHandler("mainScreen")
+{
+	mCameraSet = new Camera_Set();
+    mCurrentObject = NULL;
+    mGridPlane = NULL;
+    nodeCursor = NULL;
+}
+
+MainScreen::~MainScreen()
+{
+    //dtor
+}
 
 float snap (float f)
 {
@@ -61,26 +71,9 @@ void get_all(const fs::path& root, const string& ext, vector<fs::path>& ret)
   }
 }
 
-MainScreen::MainScreen(GBaseClass *base) : GAbstractHandler(base, true)
-{
-    mCurrentObject = NULL;
-    mGridPlane = NULL;
-    nodeCursor = NULL;
-}
-
-MainScreen::~MainScreen()
-{
-    //dtor
-}
 //------------ GUI events
 
-bool MainScreen::quit(const CEGUI::EventArgs &e)
-{
-    exit(0);
-    return true;
-}
-
-bool MainScreen::load(const CEGUI::EventArgs &e)
+void MainScreen::loadFile (MyGUI::WidgetPtr _sender)
 {
 
 	TiXmlDocument *xmlDoc =  new TiXmlDocument("level.xml");
@@ -122,11 +115,9 @@ bool MainScreen::load(const CEGUI::EventArgs &e)
 	}
 
 	cout << "end." << endl;
-    return true;
 }
 
-
-bool MainScreen::save(const CEGUI::EventArgs &e)
+void MainScreen::saveFile (MyGUI::WidgetPtr _sender)
 {
 	TiXmlDocument *xmlDoc =  new TiXmlDocument("level.xml");
  	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );
@@ -171,10 +162,9 @@ bool MainScreen::save(const CEGUI::EventArgs &e)
 	}
 	xmlDoc->SaveFile();
 
-    return true;
 }
 
-bool MainScreen::physics(const CEGUI::EventArgs &e)
+void MainScreen::physics (MyGUI::WidgetPtr _sender)
 {
 	for ( auto local_it = objects.begin(); local_it!= objects.end(); ++local_it  )
 	{
@@ -189,7 +179,7 @@ bool MainScreen::physics(const CEGUI::EventArgs &e)
 
         defaultBody->setShape( obj->getParentSceneNode(),
         						shape,
-        						1.0f, 1.0f, 1.8f, Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
+        						0.5f, 0.5f, 0.5f, Ogre::Vector3::ZERO, Ogre::Quaternion::IDENTITY);
 
         //defaultBody->getBulletRigidBody()->setFlags(defaultBody->getBulletRigidBody()->getFlags() | btCollisionObject::CF_CUSTOM_MATERIAL_CALLBACK);
 
@@ -197,20 +187,20 @@ bool MainScreen::physics(const CEGUI::EventArgs &e)
 	}
 
 	 cout << "physics DONE" << endl;
-	return true;
 }
 
-bool MainScreen::OnMouseClick_ItemListbox(const CEGUI::EventArgs& e)
+void MainScreen::OnMouseClick_ItemListbox(MyGUI::ListBox* _sender, size_t _index)
 {
-    //this is how I check for the button-press
-    CEGUI::MouseEventArgs * event = (CEGUI::MouseEventArgs*)&e;
+	Ogre::LogManager::getSingleton().logMessage("*** --- MainMenu::OnMouseClick_ItemListbox  --- ***" + _sender->getItem(_index), Ogre::LML_NORMAL);
 
-    if(event->button == CEGUI::LeftButton)
-    {
-        currentType = event->window->getName().c_str();
-    }
+     currentType = _sender->getItem(_index);
 
-    return true;
+}
+
+void MainScreen::exit(MyGUI::WidgetPtr _sender)
+{
+	Ogre::LogManager::getSingleton().logMessage("*** --- MainMenu::exit  --- ***", Ogre::LML_NORMAL);
+	this->kill();
 }
 
 //------------------------------
@@ -267,9 +257,10 @@ bool MainScreen::removeObjectAt(Ogre::Vector3 position)
 
 bool MainScreen::mouseMoved(const OIS::MouseEvent &arg)
 {
-    GAbstractHandler::mouseMoved(arg);
-
-
+	if (rotatingMouseAround)
+	{
+		mCameraMan->injectMouseMove(arg);
+	} else
     if (drawing) return true;
 
     Ogre::Real x = arg.state.X.abs / float(arg.state.width);
@@ -301,8 +292,7 @@ bool MainScreen::mouseMoved(const OIS::MouseEvent &arg)
 
 bool MainScreen::mousePressed(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
 {
-    GAbstractHandler::mousePressed(arg, id);
-
+	mCameraMan->injectMouseDown(arg, id);
 	//deselect current object
 	if (mCurrentObject)
 	{
@@ -351,6 +341,10 @@ bool MainScreen::mousePressed(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
       nodeCursor->setVisible(true);
     }
     else
+    if(id == OIS::MB_Middle)
+    {
+    	rotatingMouseAround = true;
+    } else
     if(id == OIS::MB_Right)
     {
         Ogre::Real x = arg.state.X.abs / float(arg.state.width);
@@ -386,10 +380,16 @@ bool MainScreen::mousePressed(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
 
 bool MainScreen::mouseReleased(const OIS::MouseEvent& arg, OIS::MouseButtonID id)
 {
-    GAbstractHandler::mouseReleased(arg, id);
+	mCameraMan->injectMouseUp(arg, id);
+
     if(id == OIS::MB_Left)
     {
         drawing = false;
+    }
+    else
+    if (id == OIS::MB_Middle)
+    {
+    	rotatingMouseAround = false;
     }
 
     return true;
@@ -397,7 +397,14 @@ bool MainScreen::mouseReleased(const OIS::MouseEvent& arg, OIS::MouseButtonID id
 
 bool MainScreen::keyPressed( const OIS::KeyEvent &arg )
 {
-    GAbstractHandler::keyPressed(arg);
+
+	//exit
+	if (arg.key == OIS::KC_ESCAPE)
+	{
+		return false;
+	}
+
+	mCameraMan->injectKeyDown(arg);
 
     if (arg.key == OIS::KC_HOME)
     {
@@ -447,20 +454,31 @@ bool MainScreen::keyPressed( const OIS::KeyEvent &arg )
 
 bool MainScreen::keyReleased( const OIS::KeyEvent &arg )
 {
-    GAbstractHandler::keyReleased(arg);
+	mCameraMan->injectKeyUp(arg);
+
     return true;
 }
 
-void MainScreen::setup(void)
+//void subscribeEvent(const CEGUI::String& widget, const CEGUI::String& event, const CEGUI::Event::Subscriber& method)
+//{
+//	CEGUI::Window* root = CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow();
+//    if (root->isChild(widget))
+//    {
+//    	CEGUI::Window* window = root->getChild(widget);
+//        window->subscribeEvent(event, method);
+//    }
+//}
+
+void MainScreen::setup(const Ogaboo::GBaseClass* base)
 {
 	Ogre::LogManager::getSingleton().logMessage("*** ---  MainScreen::setup(void) --- ***", Ogre::LML_NORMAL);
     // Get the SceneManager, in this case a generic one
-    mSceneMgr = this->game->mRoot->createSceneManager(Ogre::ST_GENERIC);
+    mSceneMgr = base->mRoot->createSceneManager(Ogre::ST_GENERIC);
+    mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
 
 	//Fix for 1.9
 	mOverlaySystem = new Ogre::OverlaySystem();
 	mSceneMgr->addRenderQueueListener(mOverlaySystem);
-
     mSceneMgr->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
     //mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_ADDITIVE);
 
@@ -474,27 +492,28 @@ void MainScreen::setup(void)
     mCamera->setFarClipDistance(50000);
 
     mCameraMan = new OgreBites::SdkCameraMan(mCamera);
-
-    // Create one viewport, entire window
-    Ogre::Viewport* vp = this->game->mWindow->addViewport(mCamera);
-    vp->setBackgroundColour(Ogre::ColourValue(0,0,0));
-
-    // Alter the camera aspect ratio to match the viewport
-    mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
+    mCameraSet->mCamera = mCamera;
+    this->addCameraSet(mCameraSet);
 }
 
-void subscribeEvent(const CEGUI::String& widget, const CEGUI::String& event, const CEGUI::Event::Subscriber& method)
+void MainScreen::load(const Ogaboo::GBaseClass* base)
 {
-	CEGUI::Window* root = CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow();
-    if (root->isChild(widget))
-    {
-    	CEGUI::Window* window = root->getChild(widget);
-        window->subscribeEvent(event, method);
-    }
-}
+	// load layout
+	MyGUI::LayoutManager::getInstance().loadLayout("ledit_main.layout");
 
-void MainScreen::createScene(void)
-{
+	//Register GUI events
+	MyGUI::MenuItem* mi_exit = MyGUI::Gui::getInstance().findWidget<MyGUI::MenuItem>("m_exit");
+	mi_exit->eventMouseButtonClick += MyGUI::newDelegate(this, &MainScreen::exit);
+
+	MyGUI::MenuItem* mi_save = MyGUI::Gui::getInstance().findWidget<MyGUI::MenuItem>("m_save");
+	mi_save->eventMouseButtonClick += MyGUI::newDelegate(this, &MainScreen::saveFile);
+
+	MyGUI::MenuItem* mi_load = MyGUI::Gui::getInstance().findWidget<MyGUI::MenuItem>("m_load");
+	mi_load->eventMouseButtonClick += MyGUI::newDelegate(this, &MainScreen::loadFile);
+
+	MyGUI::MenuItem* mi_physics = MyGUI::Gui::getInstance().findWidget<MyGUI::MenuItem>("m_physics");
+	mi_physics->eventMouseButtonClick += MyGUI::newDelegate(this, &MainScreen::physics);
+
 	Ogre::LogManager::getSingleton().logMessage("*** ---  MainScreen::createScene --- ***", Ogre::LML_NORMAL);
 
 	// I create a light. The scenemanager will contain it.
@@ -525,30 +544,15 @@ void MainScreen::createScene(void)
 		lLightSceneNode->attachObject(lLight);
 		lLightSceneNode->setPosition(0, 500, 0);
 	}
-	Ogre::LogManager::getSingleton().logMessage("*** ---  MainScreen::createScene1 --- ***", Ogre::LML_NORMAL);
-	CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
-//	CEGUI::SchemeManager::getSingleton().createFromFile("VanillaSkin.scheme");
-//	CEGUI::SchemeManager::getSingleton().createFromFile("GameMenuSample.scheme");
-//	CEGUI::SchemeManager::getSingleton().createFromFile("Generic.scheme");
-
-	CEGUI::Window* guiRoot = CEGUI::WindowManager::getSingleton().loadLayoutFromFile( "ledit_main.layout");//GameMenu.layout" );
-	CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow( guiRoot );
-	Ogre::LogManager::getSingleton().logMessage("*** ---  MainScreen::createScene11 --- ***", Ogre::LML_NORMAL);
-	CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
-
-    subscribeEvent("Menubar/mi_quit", CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainScreen::quit, this));
-    subscribeEvent("Menubar/mi_load", CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainScreen::load, this));
-    subscribeEvent("Menubar/mi_save", CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainScreen::save, this));
-    subscribeEvent("Menubar/mi_physics", CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MainScreen::physics, this));
-
-    //Add items dinamically
-    CEGUI::ItemListbox* itemlistbox = (CEGUI::ItemListbox*)CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->getChild("VerticalLayoutContainer/ItemListbox");
 
     //LOAD ALL THE MESHES
     {
+    	MyGUI::ListBox* mi_listBox = MyGUI::Gui::getInstance().findWidget<MyGUI::ListBox>("ListBox");
+    	mi_listBox->eventListSelectAccept += MyGUI::newDelegate(this, &MainScreen::OnMouseClick_ItemListbox);
+
         fs::path my_path( "./resources" );
 
-        typedef vector<fs::path> vec;             // store paths,
+        typedef vector<fs::path> vec;         // store paths,
         vec v;                                // so we can sort them later
 
         get_all(my_path, ".mesh", v);
@@ -557,19 +561,7 @@ void MainScreen::createScene(void)
         {
             fs::path path = (fs::path)*it;
 
-            CEGUI::ItemEntry* lb = (CEGUI::ItemEntry*)CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/ListboxItem", path.string());
-
-            lb->setText(path.string());
-            lb->subscribeEvent(CEGUI::Window::EventMouseClick, CEGUI::Event::Subscriber(&MainScreen::OnMouseClick_ItemListbox, this));
-            itemlistbox->addItem(lb);
-
-            // Add to model
-//            Ogre::Entity* obj = mSceneMgr->createEntity(path.string(), path.string());
-//
-//            Ogre::SceneNode* node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-//            node->attachObject(obj);
-//            node->setScale(5, 5, 5);
-
+            mi_listBox->addItem(path.string());
         }
     }
 
@@ -649,7 +641,6 @@ void MainScreen::createScene(void)
 
 bool MainScreen::draw(const Ogre::FrameEvent& evt)
 {
-	Ogre::LogManager::getSingleton().logMessage("*** ---  MainScreen::draw --- ***", Ogre::LML_NORMAL);
     mCameraMan->frameRenderingQueued(evt);
 
     //update physics

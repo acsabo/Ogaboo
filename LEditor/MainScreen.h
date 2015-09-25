@@ -6,40 +6,44 @@
 
 using namespace Ogaboo;
 
-class MainScreen : public GAbstractHandler
-{
-    public:
-        MainScreen(GBaseClass *base);
-        virtual ~MainScreen();
+class MainScreen: public GAbstractHandler {
+public:
+	MainScreen();
+	virtual ~MainScreen();
 
-        //overriden methods
-        void setup(void);
-        void createScene(void);
-        bool draw(const Ogre::FrameEvent& evt);
+	void setup(const Ogaboo::GBaseClass* base);
+	void load(const Ogaboo::GBaseClass* base);
+	bool draw(const Ogre::FrameEvent& evt);
 
-        virtual bool mouseMoved(const OIS::MouseEvent &arg);// { return true; }
-        virtual bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);// { return true; }
-        virtual bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);// { return true; }
+protected:
+	Ogre::Camera* mCamera;
+	CameraSet* mCameraSet;
+	OgreBites::SdkCameraMan* mCameraMan;
 
-        // OIS::KeyListener
-        bool keyPressed( const OIS::KeyEvent &arg );
-        bool keyReleased( const OIS::KeyEvent &arg );
+	//Ogre::Plane mGridPlane;
+	Ogre::SceneNode *mCurrentObject;
+	Ogre::SceneNode* nodeCursor;
+	Ogre::SceneNode* mGridPlane;
 
-    protected:
-        //Ogre::Plane mGridPlane;
-        Ogre::SceneNode *mCurrentObject;
-        Ogre::SceneNode* nodeCursor;
-        Ogre::SceneNode* mGridPlane;
+	bool addObjectAt(Ogre::Vector3 position);
+	bool removeObjectAt(Ogre::Vector3 position);
+	Ogre::String getKey(Ogre::Vector3 position);
 
-        bool addObjectAt(Ogre::Vector3 position);
-        bool removeObjectAt(Ogre::Vector3 position);
-        Ogre::String getKey(Ogre::Vector3 position);
+private:
+	bool mouseMoved(const OIS::MouseEvent &arg);
+	bool mousePressed(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
+	bool mouseReleased(const OIS::MouseEvent &arg, OIS::MouseButtonID id);
 
-        bool quit(const CEGUI::EventArgs &e);
-        bool load(const CEGUI::EventArgs &e);
-        bool save(const CEGUI::EventArgs &e);
-        bool physics(const CEGUI::EventArgs &e);
-        bool OnMouseClick_ItemListbox(const CEGUI::EventArgs& e);
+	// OIS::KeyListener
+	bool keyPressed(const OIS::KeyEvent &arg);
+	bool keyReleased(const OIS::KeyEvent &arg);
+
+	//GUI
+	void exit(MyGUI::WidgetPtr _sender);
+	void saveFile(MyGUI::WidgetPtr _sender);
+	void loadFile(MyGUI::WidgetPtr _sender);
+	void physics(MyGUI::WidgetPtr _sender);
+	void OnMouseClick_ItemListbox(MyGUI::ListBox* _sender, size_t _index);
 };
 
 #endif // MAINSCREEN_H

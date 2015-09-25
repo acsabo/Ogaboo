@@ -3,7 +3,8 @@
 Leditor::Leditor()
 {
     //ctor
-    mainScreen = new MainScreen(this);
+    mainScreen = new MainScreen();
+	this->addHandler("mainScreen", mainScreen);
 }
 
 Leditor::~Leditor()

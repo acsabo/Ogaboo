@@ -27,8 +27,8 @@
 #include <OGRE/OgreStringConverter.h>
 #include <OGRE/OgreLogManager.h>
 #include <OGRE/OgreHardwarePixelBuffer.h>
+#include <OpenALAudioInterface.h>
 
-#include "OpenAL_AudioInterface.h"
 #include "OgreOggSoundManager.h"
 
 //copia do OPENGL gl.h <mudar isso>

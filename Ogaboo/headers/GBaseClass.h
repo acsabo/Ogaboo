@@ -13,6 +13,7 @@
 
 #include <vector>
 #include <iostream>
+#include <tr1/unordered_map> //boost
 using namespace std;
 
 //OGRE
@@ -45,25 +46,21 @@ using namespace std;
 #include "OGRE/Android/OgreAPKFileSystemArchive.h"
 #include "OGRE/Android/OgreAPKZipArchive.h"
 #include <OIS/OISMultiTouch.h>
-#else
-//CEGUI API
-#include <CEGUI/CEGUI.h>
-#include <CEGUI/RendererModules/Ogre/Renderer.h>
-#include <OIS/OISMouse.h>
 #endif
+
+//GUI
+#include "MYGUI/MyGUI.h"
+#include "MYGUI/MyGUI_OgrePlatform.h"
 
 //Theora Video Manager
 #include "VideoClipManager.h"
-#include "GAbstractHandler.h"
-
 #include "OgreOggSoundManager.h"
 #include "OgreOggSoundPlugin.h"
 
 //Load scenes parser
 #include "DotSceneLoader.h"
 
-//Bullet API
-//#include <btBulletDynamicsCommon.h>
+#include "GAbstractHandler.h"
 
 using namespace Ogaboo;
 
@@ -94,16 +91,14 @@ namespace Ogaboo {
             virtual ~GBaseClass();
 
             void addLoadEvent(LoadEvent *evt);
-            void addHandler(class GAbstractHandler *evt);
+            void addHandler(std::string name, class GAbstractHandler *evt);
 
             Ogre::Root *mRoot;
             Ogre::RenderWindow* mWindow;
-
-            Ogaboo::VideoClipManager* videoClipManager;
+            Ogre::SceneManager* mSceneMgr;
 
             OgreOggSound::OgreOggSoundManager* mSoundManager;
-
-
+            Ogaboo::VideoClipManager* videoClipManager;
             CDotScene* mDotScene;
 
 #if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
@@ -112,28 +107,15 @@ namespace Ogaboo {
             virtual void renderOneFrame();
             void setup(struct android_app* state);
 #else
-            CEGUI::OgreRenderer* mRenderer; //GUI Manager
             virtual void go();
 #endif
 
-
             Ogre::ParticleFXPlugin *g_pfxPlugin;
-
             OgreOggSound::OgreOggSoundPlugin * g_oosPlugin;
-/*
-            //bullet api
-            btBroadphaseInterface* broadphase;
-            btDefaultCollisionConfiguration* collisionConfiguration;
-            btCollisionDispatcher* dispatcher;
-            btSequentialImpulseConstraintSolver* solver;
-            btDiscreteDynamicsWorld* dynamicsWorld;
-*/
-            void nextGAHandler();
-            void priorGAHandler();
+            void swapScene();
 
         protected:
-            void swapSceneMgr(unsigned short index);
-			void setupDefaultConfigIfNeeded();
+			bool setupDefaultConfigIfNeeded();
 
             virtual void createFrameListener(void);
             void createScene();
@@ -169,7 +151,17 @@ namespace Ogaboo {
             //Unattach OIS before window shutdown (very important under Linux)
             virtual void windowClosed(Ogre::RenderWindow* rw);
 
+            bool setCurrentHandler(std::string name);
+        protected:
+
+            tr1::unordered_map<std::string, GAbstractHandler*> mHandlers;
+            GAbstractHandler* mCurrentHandler;
+
         private:
+
+            MyGUI::Gui* mGUI;
+            MyGUI::OgrePlatform* mPlatform;
+
             Ogre::String mResourcesCfg;
             Ogre::String mPluginsCfg;
             virtual bool init();
@@ -193,13 +185,10 @@ namespace Ogaboo {
 			#else
 			OIS::Mouse*    mMouse;
 			#endif
-
             OIS::Keyboard* mKeyboard;
 
-            unsigned int status;
-            std::vector <class LoadEvent *> loadEvents;
-            std::vector <class GAbstractHandler *> GAHandlers;
-
+            unsigned int mStatus;
+            std::vector <class LoadEvent *> mLoadEvents;
     };
 }
 #endif // GBASECLASS_H

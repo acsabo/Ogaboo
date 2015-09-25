@@ -4,25 +4,30 @@ using namespace Ogaboo;
 
 Wormhole::Wormhole()
 {
+	cout << "Wormhole::Wormhole()" << endl;
+//	mainMenu = new MainMenu();
+//	this->addHandler("mainMenu", mainMenu);
 
-    videoScene = new VideoScene(this);
-	mainScene = new MainScene(this);
-    mainMenuScene = new MainMenuScene(this);
+    videoScene = new VideoScene();
+    this->addHandler("videoScene", videoScene);
 
-    //loginScene = new LoginScene(this); pau!!
-	//immerse = new Immerse(this);
+//	mainScene = new MainScene(this);
+
+//    mainMenuScene = new MainMenuScene(this);
+
+//	immerse = new Immerse(this);
 }
 
 bool Wormhole::keyPressed( const OIS::KeyEvent &arg )
 {
-    if (arg.key == OIS::KC_M)
-    {
-        this->nextGAHandler();
-    }
-    if (arg.key == OIS::KC_N)
-    {
-        this->priorGAHandler();
-    }
+//    if (arg.key == OIS::KC_M)
+//    {
+//        this->nextGAHandler();
+//    }
+//    if (arg.key == OIS::KC_N)
+//    {
+//        this->priorGAHandler();
+//    }
     GBaseClass::keyPressed(arg);
 }
 
@@ -35,8 +40,8 @@ Wormhole::~Wormhole()
 {
     //dtor
     delete videoScene;
-    delete loginScene;
     delete mainMenuScene;
     delete mainScene;
+    delete mainMenu;
     delete immerse;
 }

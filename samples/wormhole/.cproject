@@ -8,14 +8,14 @@
 				</macros>
 				<externalSettings/>
 				<extensions>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.955813320" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.955813320" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.955813320." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.debug.1245702636" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.debug">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.debug.1333059117" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.debug"/>
@@ -53,18 +53,18 @@
 		<cconfiguration id="cdt.managedbuild.config.gnu.mingw.exe.release.1164684317">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.mingw.exe.release.1164684317" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<macros>
-					<stringMacro name="MINGW_HOME" type="VALUE_PATH_DIR" value="C:\MinGW"/>
+					<stringMacro name="MINGW_HOME" type="VALUE_PATH_DIR" value="C:\msys64\mingw64"/>
 				</macros>
 				<externalSettings/>
 				<extensions>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.release.1164684317" name="Release" parent="cdt.managedbuild.config.gnu.mingw.exe.release">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.release.1164684317" name="Release" parent="cdt.managedbuild.config.gnu.mingw.exe.release">
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.release.1164684317." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.release.64940614" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.1231042442" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>
@@ -74,53 +74,62 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.844137894" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release.788560301" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release">
-								<option id="gnu.cpp.compiler.mingw.exe.release.option.optimization.level.1973620042" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.mingw.exe.release.option.optimization.level.1973620042" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.optimize" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.mingw.exe.release.option.debugging.level.97751583" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1983946496" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ogaboo/headers}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}\include\BULLET&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}\include\BULLET\BulletCollision&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}\include\OGRE&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}\include\OIS&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}\include\theoraplayer&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}\include\AL&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}\include\OgreBullet\Collisions&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}\include\OgreBullet\Dynamics&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${MINGW_HOME}\include\OgreBullet&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\OGRE&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\AL&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\BULLET&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\BULLET\BulletCollision&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\OIS&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\theoraplayer&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\OgreBullet\Collisions&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\OgreBullet\Dynamics&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\OgreBullet&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\msys64\mingw64\include\MYGUI&quot;"/>
 								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.222301131" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="_WIN32_WINNT=0x0500"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.dialect.std.1280629019" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1521396715" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.1154107549" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.mingw.exe.release.option.optimization.level.330778278" name="Optimization Level" superClass="gnu.c.compiler.mingw.exe.release.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.mingw.exe.release.option.debugging.level.1989312868" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.none" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1192783267" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.96159439" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release.1338359368" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release.220910817" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release">
 								<option id="gnu.cpp.link.option.paths.1175957155" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ogaboo/Win32_Release}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Ogaboo/Win64_Release}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1549716174" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OgreBulletDynamics"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="BulletDynamics.dll"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OgreBulletCollisions"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="BulletDynamics"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="BulletCollision"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_system-mgw48-mt-1_53"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="LinearMath"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="BulletCollision.dll"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Ogaboo"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="CEGUIBase-0.dll"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="CEGUIOgreRenderer-0.dll"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="theoraplayer"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="tinyxml"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_filesystem-mgw48-mt-1_53"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OpenAL32.dll"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="theora"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="vorbis"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="ogg"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OgreMain.dll"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OIS.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="MyGUI.OgrePlatform"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="MyGUIEngine.dll"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OgreTerrain.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OgreMain.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="theora_static"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="theoraplayer"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="vorbis_static"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="ogg_static"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="tinyxml"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="LinearMath.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_chrono-mt.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_system-mt.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_thread-mt.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="boost_filesystem-mt.dll"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OgreOggSoundLib"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Plugin_OgreVideo"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OpenAL32.dll"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="OIS.dll"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1365720248" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -157,12 +166,13 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="Release">
+		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/wormhole"/>
 		</configuration>
-		<configuration configurationName="Debug">
+		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/wormhole"/>
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>
