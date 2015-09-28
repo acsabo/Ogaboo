@@ -1,0 +1,160 @@
+First step into the world of game development is to prepare local development environment.
+go to https://sourceforge.net/projects/msys2/ and download the msys2-x86_64 (I'm using msys2-x86_64-20150512.exe)
+
+#------------------------#MSYS2
+pacman -Sy
+pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-boost mingw-w64-x86_64-tinyxml mingw-w64-x86_64-freeglut mingw-w64-x86_64-bullet mingw-w64-x86_64-pkg-config 
+
+##------------------------Ogredeps
+- cabalistic-ogredeps-434b497e90c2 (Add SDL2, fix MinGW builds, and allow 64-bit MinGW builds. ) https://bitbucket.org/cabalistic/ogredeps/downloads
+- use SDL2-2.0.3.zip (https://www.libsdl.org/download-2.0.php) (não precisa)
+
+download DirectX Software Development Kit from http://www.microsoft.com/en-us/download/details.aspx?id=6812
+DXSDK_Jun10.exe (C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)) in order to build OIS** (it wont build if DX is not found)
+
+mkdir build
+cmake ../ -G "MinGW Makefiles" -DCMAKE_MAKE_PROGRAM=mingw32-make -DOGREDEPS_BUILD_SDL2=OFF (precisa???)
+mingw32-make && mingw32-make install
+(copy from ogredeps to ogre build dir)
+
+#------------------------Ogre (sinbad-ogre-f40744b1106a)
+mkdir build
+open CMakeLists.txt file and change this line:
+FROM 
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=i686")
+TO
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=x86-64")
+cmake ../ -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_MAKE_PROGRAM=mingw32-make -DOGRE_DEPENDENCIES_DIR=../ogredeps -DCMAKE_BUILD_TYPE=Release -DOGRE_BUILD_SAMPLES=OFF -DOGRE_BUILD_RENDERSYSTEM_D3D11=OFF -DOGRE_BUILD_RENDERSYSTEM_D3D9=OFF
+
+
+mingw32-make && mingw32-make install
+#------------------------mygui-MyGUI3.2.2
+mkdir build
+
+export OGRE_HOME=/mingw64
+
+cmake ../ -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_MAKE_PROGRAM=mingw32-make -DCMAKE_BUILD_TYPE=Release -DMYGUI_BUILD_TOOLS=OFF -DMYGUI_RENDERSYSTEM=3 -DMYGUI_DEPENDENCIES_DIR=/mingw64 (OGRE Platform) ** recomended **
+
+!!! because Ogre was built with boost dependency, need to append -lboost_system-mt.dll in order to be able to build the Demos
+CMAKE_CXX_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -lboost_system-mt.dll
+
+CMAKE_C_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -lboost_system-mt.dll
+
+mingw32-make && mingw32-make install
+
+IF ERRORS ->>  -DMYGUI_BUILD_TOOLS=OFF -DMYGUI_BUILD_DEMOS=OFF
+remove -O3 flags, use -O1 no lugar:
+CMAKE_CXX_FLAGS_RELEASE:STRING=-O1 -DNDEBUG
+CMAKE_C_FLAGS_RELEASE:STRING=-O1 -DNDEBUG
+
+#-------------OgreBullet
+https://bitbucket.org/alexeyknyshev/ogrebullet/src
+
+cmake ../ -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw64 -DBULLET_INCLUDE_DIR=/mingw64/include/bullet -DBULLET_INCLUDE_COLLISION_DIR=/mingw64/include/bullet -DBULLET_INCLUDE_CONVEXDECOMPOSITION_DIR=/mingw64/include/bullet/ConvexDecomposition -DBULLET_INCLUDE_DYNAMICS_DIR=/mingw64/include/bullet -DBULLET_INCLUDE_LINEARMATH_DIR=/mingw64/include/bullet -DBULLET_INCLUDE_SOFTBODY_DIR=/mingw64/include/bullet -DCMAKE_MAKE_PROGRAM=mingw32-make -DCMAKE_CXX_FLAGS:STRING=-I/mingw64/include/OGRE/Overlay
+
+problemas:
+editar o arquivo OgreBulletCollisionsDebugContact.cpp
+trocar 
+#include "OgreFontManager.h"
+por
+#include "Overlay/OgreFontManager.h"
+
+#-------------LUA (lua-5.2.4)
+mingw32-make generic
+open Mafile and change: INSTALL_TOP= /mingw64
+mingw32-make install
+#-------------luacppinterface-master/
+import LuaCppInterface.sln in codeblocks; build Release 64 (add -std=gnu++11 to other options)
+
+copy *.h to /mingw64/include/
+copy libLuaCppInterface.a to /mingw64/lib/
+#-------------
+import dynamic project:
+C:\msys64\home\win_64\libtheoraplayer-code-190-tags-1.0.0\theoraplayerlibtheoraplayer_2012.vcxproj
+
+add static projects to the workscape:
+C:\msys64\home\win_64\libtheoraplayer-code-190-tags-1.0.0\theora\win32\VS2012\libtheora\libtheora_static.vcxproj
+C:\msys64\home\win_64\libtheoraplayer-code-190-tags-1.0.0\ogg\win32\VS2012\libogg_static.vcxproj
+C:\msys64\home\win_64\libtheoraplayer-code-190-tags-1.0.0\vorbis\win32\VS2012\libvorbis\libvorbis_static.vcxproj
+C:\msys64\home\win_64\libtheoraplayer-code-190-tags-1.0.0\vorbis\win32\VS2012\libvorbisfile\libvorbisfile_static.vcxproj
+SAVE libtheoraplayer.workspace
+build libogg with profile set to "Release x64" with static build and add ogg\include to compiler search directory
+build libvorbis with profile set to "Release x64" with static build and add ..\..\..\..\ogg\include and ..\..\..\lib to compiler search directory
+build libvorvisfile with profile set to "Release x64" with static build and add ..\..\..\..\ogg\include to compiler search directory
+build libtheora with profile set to "Release x64" with static build and add ..\..\..\..\ogg\include to compiler search directory
+copy *.a to C:\msys64\mingw64\lib
+Open libgtypes (libtheoraplayer)
+create Release Win64 profile, set Type Dynamic Library theoraplayer.dll
+Open TheoraVideoFrame.cpp and add 
+rename linke libraries from *.lib to *_static also add libvorbisfile_static (change the order if needed)
+copy headers to C:\msys64\mingw64\include
+theoraplayer.dll to C:\msys64\mingw64\bin
+theoraplayer.a to C:\msys64\mingw64\lib
+#--------------ogre video
+import ogrevideo-code-112-trunk\OgreVideo.vcproj in code::blocks
+create a Release Win64 profile with dinamic library (Plugin_OgreVideo.dll)
+
+Edit OgreVideoManager.h and replace:
+	class TexturePtr;	
+by:	
+	class Texture;
+	template<typename T> class SharedPtr;
+	typedef SharedPtr<Texture> TexturePtr;
+edit OgreVideoManager.cpp
+	comment out line:
+		//mPlugInName = "TheoraVideoPlugin";
+		mDictionaryName = "TheoraVideoPlugin";
+	
+add to compiler search path ..\..\..\mingw64\include\OGRE and ..\..\..\mingw64\include\libtheoraplayer
+
+change linked libs libtheoraplayer_static to libtheoraplayer
+OgreMain.dll
+add libboost_system-mt.dll
+copy libPlugin_OgreVideo.a to C:\msys64\mingw64\lib
+copy libPlugin_OgreVideo.dll to C:\msys64\mingw64\bin
+#--------------openal-soft-1.15.1/
+	cmake ../ -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_MAKE_PROGRAM=mingw32-make
+	mingw32-make &&	mingw32-make install
+#--------------
+import OgreOggSound-v1.26\OgreOggSoundLib_vc10.vcxproj in code::blocks
+edit Release 64x (OgreOggSoundLib.dll )
+
+ADD ..\..\..\mingw64\include\OGRE and ..\..\..\mingw64\include\AL to compiler search path
+edit OgreOggSoundPrereqs.h and change define HAVE_EFX 0
+remove efx-util.lib from linked libraries
+rename linke libraries from *.lib to *_static also 
+remove unnecessary entries from search path (compiler/linker)
+edit OgreOggSoundManager.cpp
+		if (!buffer)
+		{
+			// Load audio file
+			sound->_openImpl(_openStream(file));
+		}
+POR
+		if (!buffer)
+		{
+			// Load audio file
+			Ogre::DataStreamPtr streamedFilePtr = _openStream(file);
+			sound->_openImpl(streamedFilePtr);
+		}
+add libboost_thread-mt.dll and libboost_system-mt.dll to linker (change the order properly)
+copy libOgreOggSoundLib.a to C:\msys64\mingw64\lib
+copy libOgreOggSoundLib.dll to C:\msys64\mingw64\bin
+
+THE END!
+in case you find any linking issue regarding OgreTerrain:
+undefined reference to `Ogre::Singleton<Ogre::TerrainGlobalOptions>::msSingleton'
+remova ou troquqe CCX_FLAGS string, REMOVE the -O3 flag for optimization. para -01 (http://www.ogre3d.org/forums/viewtopic.php?f=2&t=82074)
+
++++ EXTRAS
+tinyxml2-3.0.0.zip
+mkdir build
+cd build/
+cmake ../ -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_MAKE_PROGRAM=mingw32-make
+mingw32-make && mingw32-make install
+
+libtmx-0.4.0
+mkdir build
+cd build/
+cmake ../src -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=/mingw64 -DCMAKE_MAKE_PROGRAM=mingw32-make
+mingw32-make && mingw32-make install
